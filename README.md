@@ -1,6 +1,6 @@
 <picture>
-  <source media="(max-width: 640px)" srcset="vorschau/patientenpfad-mobil.png">
-  <img src="vorschau/patientenpfad.png" width="100%" alt="Ambulanter Patientenpfad. 46 Schritte vor, während und nach dem Praxisbesuch.">
+  <source media="(max-width: 640px)" srcset="vorschau/patientenpfad-mobil-titelbild.png">
+  <img src="vorschau/patientenpfad-titelbild.png" width="100%" alt="Ambulanter Patientenpfad. 46 Schritte vor, während und nach dem Praxisbesuch.">
 </picture>
 
 <h2 align="center"><a href="https://timofrank.github.io/ambulante-prozesskarte/">Interaktive Karte öffnen ↗</a></h2>
