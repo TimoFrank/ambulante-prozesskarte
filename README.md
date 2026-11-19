@@ -1,48 +1,30 @@
 <a href="https://timofrank.github.io/ambulante-prozesskarte/">
   <picture>
     <source media="(max-width: 640px)" srcset="vorschau/patientenpfad-mobil.png">
-    <img src="vorschau/patientenpfad.png" width="100%" alt="Ambulanter Patientenpfad. 46 Schritte in Hausarztpraxen und Facharztpraxen. Interaktive Karte öffnen.">
+    <img src="vorschau/patientenpfad.png" width="100%" alt="Ambulanter Patientenpfad: Interaktive Karte öffnen">
   </picture>
 </a>
 
-<p align="center">
-  <a href="https://timofrank.github.io/ambulante-prozesskarte/"><strong>Interaktive Karte öffnen</strong></a>
-  &nbsp; | &nbsp;
-  <a href="https://timofrank.github.io/ambulante-prozesskarte/?ansicht=matrix">Zur Datenraum-Matrix</a>
-</p>
-
-Wo entsteht ein Laborauftrag? Wie kommt der Befund zurück in die Praxis? Wer kümmert sich nach einer ambulanten Operation um die Nachsorge? Die Karte macht an 46 Schritten sichtbar, wer beteiligt ist, welche Informationen entstehen und wer sie für die Weiterbehandlung braucht.
-
-Eine Arbeitsfassung von **Timo Frank** aus dem Projekt **Versorgungsprozesse** im Rahmen seiner Arbeit bei der **gematik**. Stand der fachlichen Inhalte ist der 19. November 2026.
+Was passiert zwischen der Blutabnahme und dem Anruf mit dem Ergebnis? Wie geht es nach einer Überweisung oder einer ambulanten Operation weiter? Die [interaktive Karte](https://timofrank.github.io/ambulante-prozesskarte/) zeigt, wer den nächsten Schritt übernimmt und welche Informationen dafür gebraucht werden.
 
 ## Einblick in die Karte
 
-[![Ausschnitt der Live-Karte zum Suchbegriff Labor. Zu sehen sind der Laborauftrag, die Probenentnahme und die Befundfreigabe.](vorschau/labor.png)](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor)
+[![Browserfenster mit der geöffneten Prozesskarte. Die Suche nach Labor zeigt den Auftrag, die Probenentnahme und die Freigabe des Befunds.](vorschau/labor.png)](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor)
 
-Wer eine Karte öffnet, sieht den Ablauf, die beteiligten Rollen und die Fachquellen. Drei Einstiege zum Ausprobieren:
-
-| Thema | Auf der Karte |
-| --- | --- |
-| [Labor](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor) | Von der Anforderung und der Probenentnahme bis zur ärztlichen Beurteilung des Befunds. |
-| [Quartalswechsel](https://timofrank.github.io/ambulante-prozesskarte/?suche=Quartal) | Wann die Praxis die Gesundheitskarte einliest und wie lange ein Überweisungsauftrag gilt. |
-| [Ambulante Operation](https://timofrank.github.io/ambulante-prozesskarte/?suche=ambulante%20Operationen) | Von der Entscheidung über den Eingriff bis zur Wundkontrolle. |
-
-Die [Matrix](https://timofrank.github.io/ambulante-prozesskarte/?ansicht=matrix) zeigt, welche Praxisinformationen im Portal, in der Versorgung, in der elektronischen Patientenakte oder bei Krankenkasse und Kassenärztlicher Vereinigung eine Rolle spielen. Ein Schritt kann in mehreren Spalten vorkommen.
+Ein Folgerezept braucht andere Schritte als eine ambulante Operation. Öffne eine Karte, um zu sehen, wer beteiligt ist und was als Nächstes passiert. Unter der Beschreibung findest du die Quellen zum Weiterlesen. [Beispiel Labor öffnen](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor)
 
 ## Herkunft und Einordnung
 
-Die ambulante Auswahl ist eine redaktionelle Arbeitsfassung für die vertragsärztliche Versorgung in Deutschland. Je nach Anliegen kommen einzelne Schritte hinzu, entfallen oder wiederholen sich. Die fachlichen Belege sind an den jeweiligen Karten verlinkt.
+Das Vorbild ist die Krankenhauskarte des Arbeitskreises Patientenportale. Sie beschreibt den Weg vor, während und nach einem Krankenhausaufenthalt. Dafür hat der Arbeitskreis aus über 80 möglichen Schritten 25 ausgewählt. Wie die Auswahl zustande kam, erläutert er im [Positionspapier, Abschnitt 3.3](https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25).
 
-Aufbau und Bedienung stammen von der Krankenhauskarte des Arbeitskreises Patientenportale. Der Arbeitskreis wählte aus über 80 möglichen Schritten 25 für seinen Patientenpfad aus. Drei Unterarbeitsgruppen untersuchten zwölf davon vertieft. [Originalkarte](https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html) und [Positionspapier, Abschnitt 3.3](https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25).
+[![Das Original-Repository des Arbeitskreises Patientenportale auf GitHub mit der README zum stationären Patientenpfad.](vorschau/original-repository.png)](https://github.com/oeme-github/INA-ePA-und-Patientenportale#readme)
 
-Mehr zur Zusammenarbeit der gematik mit der Versorgungspraxis gibt es bei [#Mitmachen](https://www.gematik.de/mitmachen).
+[Original-Repository auf GitHub](https://github.com/oeme-github/INA-ePA-und-Patientenportale) oder [stationäre Prozesskarte öffnen](https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html)
 
-## Offline nutzen und bearbeiten
+## #Mitmachen bei der gematik
 
-Die [Projektdateien als ZIP herunterladen](https://github.com/TimoFrank/ambulante-prozesskarte/archive/refs/heads/main.zip), entpacken und `index.html` im Browser öffnen. Die Karte funktioniert auch offline. Die verlinkten Fachquellen sind online erreichbar.
+Was funktioniert im Praxisalltag, und wo hakt es? Bei #Mitmachen können Praxisteams ihre Erfahrungen in Befragungen teilen oder die gematik zu einer Hospitation einladen. [Bei der gematik mitmachen](https://www.gematik.de/mitmachen)
 
-* [index.html](index.html) enthält die Oberfläche, die Filter, die Matrix und die Exportfunktionen.
-* [karten.js](karten.js) enthält die Prozessschritte und die zugehörigen Fachquellen.
-* [LICENSE](LICENSE) enthält die Lizenz des übernommenen Viewers.
+## Offline öffnen
 
-GitHub Pages veröffentlicht die Karte aus dem Hauptordner des Branches `main`.
+[Projekt als ZIP herunterladen](https://github.com/TimoFrank/ambulante-prozesskarte/archive/refs/heads/main.zip), entpacken und `index.html` im Browser öffnen.
