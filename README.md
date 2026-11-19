@@ -1,13 +1,13 @@
 <picture>
   <source media="(max-width: 640px)" srcset="vorschau/patientenpfad-mobil-titelbild.png">
-  <img src="vorschau/patientenpfad-titelbild.png" width="100%" alt="Ambulanter Patientenpfad. 46 Schritte vor, während und nach dem Praxisbesuch.">
+  <img src="vorschau/patientenpfad-titelbild.png" width="100%" alt="Ambulanter Patientenpfad. 55 Schritte in der ambulanten Versorgung.">
 </picture>
 
 <h2 align="center"><a href="https://timofrank.github.io/ambulante-prozesskarte/">Interaktive Karte öffnen ↗</a></h2>
 
-Vertragsärztliche Versorgung beginnt oft schon mit dem ersten Anruf. Vor dem Praxisbesuch klären Patientinnen und Patienten mit dem Praxisteam, wie dringend ihr Anliegen ist und was sie zum Termin mitbringen sollen. In der Praxis folgen je nach Bedarf Beratung, Untersuchung oder Behandlung. Auch nach dem Besuch geht die Versorgung weiter, etwa wenn die Hausarztpraxis einen Befund mit der Patientin bespricht oder mit einer Facharztpraxis die Weiterbehandlung abstimmt.
+Ambulante Versorgung beginnt oft schon mit dem ersten Anruf. Vor dem Praxisbesuch klären Patientinnen und Patienten mit dem Praxisteam, wie dringend ihr Anliegen ist und was sie zum Termin mitbringen sollen. In der Praxis folgen je nach Bedarf Beratung, Untersuchung oder Behandlung. Auch nach dem Besuch geht die Versorgung weiter, etwa wenn die Hausarztpraxis einen Befund mit der Patientin bespricht oder mit einer Facharztpraxis die Weiterbehandlung abstimmt.
 
-Die Prozesskarte führt 46 typische Versorgungsschritte in einer Übersicht zusammen. Sie zeigt, wer welche Aufgabe übernimmt, wo Informationen entstehen und wer sie als Nächstes braucht. So lassen sich Abläufe vergleichen und Übergaben erkennen, an denen Praxen, Labore oder Apotheken aufeinander angewiesen sind.
+Die Prozesskarte führt 55 ausgewählte Versorgungsschritte in einer Übersicht zusammen. Sie zeigt, wer welche Aufgabe übernimmt, wo Informationen entstehen und wer sie als Nächstes braucht. So lassen sich Abläufe vergleichen und Übergaben erkennen, an denen Praxen, Labore oder Apotheken aufeinander angewiesen sind.
 
 ## Einblick in die Karte
 
@@ -15,12 +15,14 @@ Die Prozesskarte führt 46 typische Versorgungsschritte in einer Übersicht zusa
 
 ## So erkundest du die Karte
 
-Wähle eine der drei Phasen, wenn dich ein bestimmter Abschnitt des Praxisbesuchs interessiert. Du kannst auch über alle Phasen hinweg nach einem Thema suchen. Ein Klick auf einen Treffer zeigt dir, was in diesem Schritt passiert, wer beteiligt ist und wo du mehr darüber nachlesen kannst.
+Wähle eine Phase, wenn dich ein bestimmter Abschnitt rund um den Behandlungskontakt interessiert. „Kontaktübergreifend“ zeigt Abläufe, die mehrere Kontakte verbinden. Du kannst auch über alle Phasen hinweg nach einem Thema suchen. Ein Klick auf einen Treffer zeigt dir, was in diesem Schritt passiert, wer beteiligt ist und wo du mehr darüber nachlesen kannst.
 
 * Mit „Folgerezept“ findest du heraus, wie du ein Rezept für ein regelmäßig eingenommenes Medikament erneut anfragen kannst und was die Praxis vor dem Ausstellen prüft.
 * Suche nach „Labor“ und folge einer Probe vom Untersuchungsauftrag über die Entnahme bis zu dem Moment, in dem die Ärztin oder der Arzt den Befund beurteilt.
 * „eGK“ führt dich zum Versicherungsnachweis. Dort liest du, wann die Praxis die elektronische Gesundheitskarte einliest und wie eine Ersatzbescheinigung helfen kann, wenn die Karte fehlt.
 * Für Formulare eignet sich der Suchbegriff „Muster“. Mit „Muster 6“ findest du Schritte rund um die Überweisung, mit „Muster 10“ den Laborauftrag.
+
+Über den Filter für Fachpfade gelangst du direkt zur [Psychotherapie](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Psychotherapie), zur [Privatbehandlung](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Privatbehandlung) oder zur [Pathologie](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Pathologie). Der Prozessbereich beschreibt die Tätigkeit, die Informationsdomäne den Inhalt. Bei der Privatabrechnung kannst du so unterscheiden, wo die Praxis einzelne Gebührenpositionen erfasst und in welcher Form die Rechnung bei der zahlungspflichtigen Person ankommt.
 
 ## Herkunft und Einordnung
 

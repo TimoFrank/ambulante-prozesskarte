@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ambulanter Patientenpfad | Interaktive Prozesskarte</title>
-  <meta name="description" content="Interaktive Prozesskarte für die ambulante Versorgung in Hausarztpraxen und Facharztpraxen.">
+  <meta name="description" content="Ambulante Prozesskarte für Hausarztpraxen und Facharztpraxen mit Fachpfaden für Psychotherapie, Privatbehandlung und Pathologie.">
   <!-- Viewer adapted from patientenpfad_interaktiv.html, Copyright (c) 2026 oeme, EUPL-1.2-or-later.
        Upstream: https://github.com/oeme-github/INA-ePA-und-Patientenportale/tree/c2d411a2d262611ec3d6323689960f9d5f7e6235
        Modified 2026-11-19 for Versorgungsprozesse. See LICENSE in this directory. -->
@@ -778,22 +778,24 @@
       .print-metadata { margin: 6px 0 !important; }
     }
   </style>
+<link rel="stylesheet" href="fachfilter.css?modell=2">
 </head>
 <body>
   <header class="page-header">
     <h1>Ambulanter Patientenpfad | Interaktive Prozesskarte</h1>
-    <p class="header-meta"><span>Akteur × Prozess → Datenobjekt</span><span id="model-size"></span><span>3 Phasen</span><span>4 Datenräume</span><span>Arbeitsfassung V1</span><a href="https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html" target="_blank" rel="noopener">Vorlage des AK Patientenportale ↗</a></p>
-    <p class="scope-note">Vom ersten Kontakt bis zur Nachsorge. Welche Informationen entstehen in Hausarztpraxen und Facharztpraxen, wer arbeitet damit und wohin werden sie weitergegeben?</p>
+    <p class="header-meta"><span>Akteur × Prozess → Datenobjekt</span><span id="model-size"></span><span id="room-count"></span><span>Arbeitsfassung V1</span><a href="https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html" target="_blank" rel="noopener">Vorlage des AK Patientenportale ↗</a></p>
+    <p class="scope-note">Vom ersten Kontakt bis zur Nachsorge. Welche Informationen entstehen in der ambulanten Versorgung, wer arbeitet damit und wohin werden sie weitergegeben?</p>
     <details class="scope-details"><summary>Einordnung und Quellen der Prozesskarte</summary>
       <div class="scope-details-body">
         <h2>Herkunft des Modells</h2>
         <p>Der Arbeitskreis Patientenportale der INA hat für den Weg vor, während und nach einem Krankenhausaufenthalt 25 aus über 80 möglichen Schritten ausgewählt. Drei Unterarbeitsgruppen untersuchten zwölf davon vertieft. Die Seiten 6 und 7 erläutern das Prozessmodell. Kapitel 3.3 auf Seite 24 beschreibt die Auswahl der Schritte. <a href="https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=8" target="_blank" rel="noopener">Positionspapier, Seite 7</a>. <a href="https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25" target="_blank" rel="noopener">Positionspapier, Seite 24</a>. <a href="https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html" target="_blank" rel="noopener">Interaktive Originalkarte</a>.</p>
         <h2>Ambulante Arbeitsfassung</h2>
-        <p>Diese erste Version betrachtet die vertragsärztliche Versorgung in Deutschland. Das Projekt Versorgungsprozesse hat die ambulanten Schritte ausgewählt und anhand der jeweils verlinkten Fachquellen beschrieben. Für die Zahl ambulanter Schritte gibt es in diesem Modell keine feste Vorgabe. Je nach Anliegen überspringen Patientinnen und Patienten einzelne Schritte oder durchlaufen sie wiederholt. Zur Behandlung in der Praxis zählen auch Telefonate, Videosprechstunden und Hausbesuche.</p>
+        <p>Diese erste Version beschreibt ausgewählte Abläufe der ambulanten Versorgung in Deutschland, einschließlich Psychotherapie, Pathologie und Privatbehandlung. Das Projekt Versorgungsprozesse hat die ambulanten Schritte ausgewählt und anhand der jeweils verlinkten Fachquellen beschrieben. Für die Zahl ambulanter Schritte gibt es in diesem Modell keine feste Vorgabe. Je nach Anliegen überspringen Patientinnen und Patienten einzelne Schritte oder durchlaufen sie wiederholt. Zur Behandlung in der Praxis zählen auch Telefonate, Videosprechstunden und Hausbesuche.</p>
         <h2>Kommunikation in der Praxissoftware</h2>
         <p>Die Kommunikationsbeispiele zeigen, was eine Person erlebt und wer das Anliegen im Team übernimmt. „Produktbeispiel“ verweist auf eine dokumentierte Funktion eines Praxisverwaltungssystems (PVS). „Spezifiziert“ verweist auf technische Vorgaben für die genannte Anwendung. Die Gestaltungsvorschläge stammen aus diesem Projekt. Bei Übergaben zwischen Systemen zeigen sie, was die gematik, die KBV und die Hersteller gemeinsam klären könnten. <a href="https://fachportal.gematik.de/zielgruppen/primaersystemhersteller" target="_blank" rel="noopener">gematik zu Schnittstellen für Primärsysteme</a></p>
-        <h2>Datenräume und Rechtsgrundlagen</h2>
-        <p>Die Datenräume zeigen, wo Informationen je nach Verlauf verfügbar sein können. Versorgung umfasst das Praxisverwaltungssystem und weitere Systeme der Behandlung. Ein Portal ist ein optionaler Zugang. In der elektronischen Patientenakte (ePA) gelten die jeweiligen Zugriffsrechte. Kasse / KV fasst zwei getrennte Empfänger zusammen, die Krankenkasse für Versicherungsangelegenheiten und die Kassenärztliche Vereinigung für die Abrechnung. Welche Empfänger und Rechte gelten, hängt vom Vorgang ab. Die Struktur beschreibt das typische Hauptdokument eines Schritts. Die aufgeführten Formate und Verfahren sind Beispiele. Die Rechtsgrundlagen geben eine fachliche Orientierung.</p>
+        <h2>Was die Filter zeigen</h2>
+        <p>Der Prozessbereich beschreibt die Aufgabe im Versorgungsablauf. Die Informationsdomäne benennt die Art der Information, etwa Befund oder Termin. Jede Objektvariante zeigt, wo die Information vorliegt und ob ihre Inhalte als einzelne Felder auslesbar sind. Ein strukturierter Befund und ein Scan können deshalb verschiedene Treffer ergeben. Die Zahlen im Filter zählen jeden passenden Schritt einmal.</p>
+        <p>Ein Schritt kann zu mehreren Kontaktphasen gehören. Die Gesamtübersicht ordnet ihn nach seinem Hauptbezug ein. „Kontaktübergreifend“ erfasst Arbeit über einzelne Kontakte hinweg. Telefon, Messenger und Portale sind mögliche Kommunikationswege. Ein ePA-Eintrag oder eine andere Ablage wird für die jeweilige Variante gesondert angegeben. Der EHDS bildet einen europäischen Rechtsrahmen. Die fachlichen und rechtlichen Belege stehen am jeweiligen Schritt.</p>
         <div class="license">Viewer nach dem <a href="https://github.com/oeme-github/INA-ePA-und-Patientenportale/tree/c2d411a2d262611ec3d6323689960f9d5f7e6235" target="_blank" rel="noopener">Original von oeme</a>, © 2026 oeme. Für Versorgungsprozesse überarbeitet am 19.11.2026. <a href="LICENSE" target="_blank" rel="noopener">Lizenz EUPL 1.2 oder später</a>.</div>
       </div>
     </details>
@@ -804,15 +806,9 @@
   </nav>
   <section class="toolbar" aria-label="Prozessschritte filtern">
     <div class="filter-row" id="phase-row" role="group" aria-label="Phase"><span class="filter-label">Phase</span></div>
-    <div class="mobile-filter-action"><button id="mobile-filter-toggle" class="btn-export" aria-expanded="false" aria-controls="extra-filters">Weitere Filter anzeigen</button></div>
-    <div id="extra-filters">
-      <div class="filter-row" id="dr-row" role="group" aria-label="Datenraum"><span class="filter-label">Datenraum</span></div>
-      <div class="filter-row" id="str-row" role="group" aria-label="Struktur"><span class="filter-label">Struktur</span></div>
-      <div class="filter-row" id="law-row" role="group" aria-label="Rechtsgrundlage"><span class="filter-label">Rechtsgrundlage</span></div>
-      <div class="filter-row" id="std-row" role="group" aria-label="Standard und Verfahren"><span class="filter-label">Standard</span></div>
-    </div>
     <div class="filter-row"><label class="filter-label" for="search-input">Suche</label><input class="search-input" type="search" id="search-input" placeholder="Prozessschritte suchen">
       <button id="communication-search" type="button" class="btn-export" aria-pressed="false" aria-label="Suchthema Kommunikation" aria-controls="karten">Kommunikation</button></div>
+    <div class="facet-bar"><div id="facet-controls" aria-label="Fachfilter"></div><button id="reset-extra" class="facet-reset" type="button" hidden>Fachfilter zurücksetzen</button></div>
   </section>
   <main class="main">
     <div class="export-bar" id="exports">
@@ -833,36 +829,17 @@
     <div id="modal-content"></div>
   </dialog>
   <section id="print-content"></section>
-  <script src="karten.js"></script>
+  <script src="karten.js?modell=2"></script>
+  <script src="kartenmodell.js?modell=2"></script>
   <script>
     'use strict';
 
-    const phases = {vor: 'Vor dem Praxisbesuch', im: 'In der Praxis', nach: 'Nach dem Praxisbesuch'};
-    const rooms = {portal: 'Portal', versorgung: 'Versorgung', epa: 'ePA', kostentraeger: 'Kasse / KV'};
     const operations = {E: 'Erzeugt', V: 'Verändert', L: 'Gelesen oder geprüft', G: 'Gelöscht'};
-    const structures = ['strukturiert', 'teilstrukturiert', 'unstrukturiert'];
     const byId = id => document.getElementById(id);
-    const sortedUnique = values => [...new Set(values)].sort((a, b) => a.localeCompare(b, 'de'));
     const stepNumber = step => '#' + String(step.nr).padStart(2, '0');
     const operationText = step => step.op.split(/,\s*/).map(code => operations[code] || code).join(', ');
     const escapeText = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
 
-    function standardGroup(label) {
-      if (/FHIR/i.test(label)) return 'FHIR';
-      if (/\b(?:ICD|OPS|LOINC|SNOMED|ATC)\b/i.test(label)) return 'Terminologien';
-      if (/\b(?:KBV|Muster|Vordruck|eFormular|Formular)\b/i.test(label)) return 'Formulare';
-      if (/^(?:KIM|TI|VSDM|eEB|eAU|E-Rezept)/i.test(label)) return 'TI-Verfahren';
-      if (/^(?:LDT|BDT|GDT|xDT)/i.test(label)) return 'xDT';
-      return label;
-    }
-
-    const available = {
-      dr: Object.keys(rooms),
-      str: structures,
-      law: sortedUnique(PROZESSE.flatMap(d => d.gesetze)),
-      std: sortedUnique(PROZESSE.flatMap(d => d.standards.map(standardGroup)))
-    };
-    const selected = Object.fromEntries(Object.entries(available).map(([group, options]) => [group, new Set(options)]));
     let phase = 'alle';
     let query = '';
     let currentView = 'karten';
@@ -908,7 +885,7 @@
 
     function matchesSearch(step) {
       if (!query) return true;
-      const fields = [step.titel, ...step.akteur, ...step.objekt, step.detail, step.domäne, step.struktur, ...step.gesetze, ...step.standards, ...step.dr.map(key => rooms[key]), ...(step.suchbegriffe || [])];
+      const fields = [step.titel, ...step.akteur, ...step.objekte.flatMap(o => [o.name, o.art, o.struktur, o.variante, ...o.ort.map(key => rooms[key])]), step.detail, step.bereich, ...step.setting, ...step.zeiten.map(key => phases[key]), ...step.gesetze, ...step.standards, ...(step.suchbegriffe || [])];
       if (step.kommunikation) {
         const contact = step.kommunikation;
         fields.push('Kommunikation', 'PVS', 'Praxisverwaltungssystem', ...contact.wege, contact.szenario, contact.team, contact.pvs, contact.status, contact.uebergabe);
@@ -918,22 +895,8 @@
       return searchText(query).split(/\s+/).every(word => searchable.includes(word));
     }
 
-    function matchesGroup(items, group) {
-      if (!items.length) return selected[group].size === available[group].length;
-      return items.some(item => selected[group].has(item));
-    }
-
-    function matchesDimensions(step) {
-      return matchesGroup(step.dr, 'dr') && matchesGroup(step.struktur ? [step.struktur] : [], 'str')
-        && matchesGroup(step.gesetze, 'law') && matchesGroup(step.standards.map(standardGroup), 'std');
-    }
-
-    function visibleSteps() {
-      return PROZESSE.filter(step => (phase === 'alle' || step.phase === phase) && matchesSearch(step) && matchesDimensions(step));
-    }
-
     function roomBadges(step) {
-      return step.dr.map(key => '<span class="dr-badge dr-' + escapeText(key) + '">' + escapeText(rooms[key]) + '</span>').join('');
+      return locationsOf(step).map(key => '<span class="dr-badge dr-' + escapeText(key) + '">' + escapeText(rooms[key]) + '</span>').join('');
     }
 
     function detailSection(title, html) {
@@ -959,8 +922,11 @@
       const text = field => escapeText(step[field]).split('\n').map(line => '<p>' + line + '</p>').join('');
       return '<div class="detail-box"><p>' + mark(step.detail, search) + '</p>'
         + communicationDetails(step.kommunikation, search)
-        + detailSection('Informationsdomäne', chips([step.domäne], 'domaene-chip', search))
-        + detailSection('Rechtsgrundlagen', chips(step.gesetze, 'gesetz-chip', search))
+        + detailSection('Prozessbereich', chips([step.bereich], 'domaene-chip', search))
+        + detailSection('Phasen', chips(step.zeiten.map(key => phases[key]), 'domaene-chip', search))
+        + (step.setting.length ? detailSection('Fachpfad', chips(step.setting, 'domaene-chip', search)) : '')
+        + objectDetails(step, search)
+        + detailSection('Recht und Regelwerk', chips(step.gesetze, 'gesetz-chip', search))
         + detailSection('Standards und Verfahren', chips(step.standards, 'standard-chip', search))
         + (step.ist ? detailSection('Stand der Versorgung', text('ist')) : '')
         + (step.luecke ? detailSection('Offene Fragen', text('luecke')) : '')
@@ -969,17 +935,15 @@
     }
 
     function objectLine(step, search) {
-      return mark(step.objekt.join(', '), search) + ' <span class="card-op" title="' + escapeText(operationText(step)) + '">' + escapeText(step.op) + '</span>'
-        + (step.struktur ? '<span class="struktur-badge struktur-' + escapeText(step.struktur) + '">' + escapeText(step.struktur) + '</span>' : '');
+      return mark(namesOf(step).join(', '), search) + ' <span class="card-op" title="' + escapeText(operationText(step)) + '">' + escapeText(step.op) + '</span>';
     }
 
     function card(step) {
-      const enabled = matchesDimensions(step);
-      const open = enabled && expanded.has(step.nr);
+      const open = expanded.has(step.nr);
       const routes = step.kommunikation && query.toLocaleLowerCase('de') === 'kommunikation'
         ? '<span class="result-routes">' + escapeText(step.kommunikation.wege.join(' · ')) + '</span>' : '';
-      return '<article data-nr="' + step.nr + '" class="prozess-card phase-' + step.phase + (enabled ? '' : ' dimmed') + (open ? ' open' : '') + '">'
-        + '<button class="card-trigger" aria-label="' + escapeText(stepNumber(step) + ' ' + step.titel) + '" aria-expanded="' + open + '" ' + (enabled ? '' : 'disabled') + '>'
+      return '<article data-nr="' + step.nr + '" class="prozess-card phase-' + step.phase + (open ? ' open' : '') + '">'
+        + '<button class="card-trigger" aria-label="' + escapeText(stepNumber(step) + ' ' + step.titel) + '" aria-expanded="' + open + '">'
         + '<span class="card-meta"><span class="card-nr">' + stepNumber(step) + '</span></span><span class="card-titel">' + mark(step.titel) + '</span>'
         + '<span class="card-akteur">' + chips(step.akteur, 'akteur-tag', query) + '</span>' + routes + '<span class="card-objekt">' + objectLine(step, query) + '</span>'
         + '<span class="card-badges">' + roomBadges(step) + '</span></button>' + (open ? details(step) : '') + '</article>';
@@ -993,12 +957,12 @@
       byId('btn-expand').textContent = complete ? '⊟ Alle zuklappen' : '⊞ Alle aufklappen';
       byId('btn-expand').setAttribute('aria-pressed', String(complete));
       for (const control of ['btn-expand', 'btn-overview', 'btn-pdf', 'btn-csv', 'btn-json']) byId(control).disabled = !results.length;
-      byId('empty-result').hidden = currentView !== 'karten' || results.length > 0;
-      byId('karten').innerHTML = Object.entries(phases).filter(([key]) => phase === 'alle' || phase === key).map(([key, label]) => {
-        const steps = PROZESSE.filter(step => step.phase === key && matchesSearch(step));
+      byId('empty-result').hidden = results.length > 0;
+      updateFacets();
+      updateMatrix();
+      byId('karten').innerHTML = resultSections(results).map(([key, label, steps]) => {
         if (!steps.length) return '';
-        const count = results.filter(step => step.phase === key).length;
-        const countLabel = count === steps.length ? count + (count === 1 ? ' Schritt' : ' Schritte') : count + ' von ' + steps.length + ' sichtbar';
+        const countLabel = steps.length === 1 ? '1 Schritt' : steps.length + ' Schritte';
         return '<section class="phase-section"><div class="phase-section-header phase-' + key + '"><h2 class="phase-section-title">' + label + '</h2><span class="phase-section-count">' + countLabel + '</span></div><div class="phase-section-grid">' + steps.map(card).join('') + '</div></section>';
       }).join('');
       if (focusStep != null) byId('karten').querySelector('[data-nr="' + focusStep + '"] .card-trigger')?.focus({preventScroll: true});
@@ -1012,7 +976,7 @@
       if (group === 'phase' && key !== 'alle') {
         const dot = document.createElement('span');
         dot.className = 'dot';
-        dot.style.background = 'var(--phase-' + key + ')';
+        dot.style.background = 'var(--phase-' + key + ', #65738a)';
         button.append(dot);
       }
       button.append(label);
@@ -1033,35 +997,16 @@
       }, 'phase');
     });
 
-    Object.entries(available).forEach(([group, options]) => {
-      options.forEach(key => {
-        const className = group === 'dr' ? 'dr-toggle dr-' + key : group + '-toggle';
-        addFilter(group + '-row', group === 'dr' ? rooms[key] : key, className, key, true, button => {
-          if (selected[group].has(key)) selected[group].delete(key);
-          else selected[group].add(key);
-          setPressed(button, selected[group].has(key));
-          updateCards();
-        }, group);
-      });
-    });
+    installFacets();
 
     byId('reset').addEventListener('click', () => {
       phase = 'alle';
       query = '';
       byId('search-input').value = '';
-      Object.entries(available).forEach(([group, options]) => {
-        selected[group] = new Set(options);
-        byId(group + '-row').querySelectorAll('button').forEach(button => setPressed(button, true));
-      });
+      clearDimensions();
       byId('phase-row').querySelectorAll('button').forEach(button => setPressed(button, button.dataset.phase === phase));
       updateCards();
       byId('search-input').focus();
-    });
-
-    byId('mobile-filter-toggle').addEventListener('click', () => {
-      const open = byId('extra-filters').classList.toggle('mobile-open');
-      byId('mobile-filter-toggle').setAttribute('aria-expanded', String(open));
-      byId('mobile-filter-toggle').textContent = open ? 'Weitere Filter ausblenden' : 'Weitere Filter anzeigen';
     });
 
     byId('communication-search').addEventListener('click', () => {
@@ -1091,32 +1036,10 @@
       updateCards();
     });
 
-    const domains = sortedUnique(PROZESSE.map(step => step.domäne));
-    function matrixTable(printing = false) {
-      const heading = Object.entries(rooms).map(([key, label]) => '<th scope="col"><span class="dr-badge dr-' + key + '">' + label + '</span></th>').join('');
-      const rows = domains.map(domain => {
-        const steps = PROZESSE.filter(step => step.domäne === domain);
-        const cells = Object.keys(rooms).map(key => {
-          const items = steps.filter(step => step.dr.includes(key)).map(step => {
-            const name = escapeText(stepNumber(step) + ' ' + step.titel);
-            return printing ? '<p>' + name + '</p>' : '<button class="matrix-step-chip phase-' + step.phase + '" data-nr="' + step.nr + '" aria-haspopup="dialog">' + name + '</button>';
-          });
-          return '<td>' + items.join('') + '</td>';
-        }).join('');
-        return '<tr><th scope="row" class="matrix-domaene">' + escapeText(domain) + '</th>' + cells + '</tr>';
-      }).join('');
-      return '<table class="' + (printing ? 'print-table matrix-print' : 'matrix-table') + '" aria-label="Informationsdomänen und Datenräume"><thead><tr><th scope="col">Informationsdomäne</th>' + heading + '</tr></thead><tbody>' + rows + '</tbody></table>';
-    }
-
-    byId('matrix-view').innerHTML = '<div class="matrix-legende"><span class="matrix-legende-label">Phasen</span>'
-      + Object.entries(phases).map(([key, label]) => '<span class="matrix-step-chip phase-' + key + '">' + label + '</span>').join('')
-      + '</div><div class="matrix-wrap" tabindex="0" role="region" aria-label="Matrix, bei Bedarf seitlich scrollen">' + matrixTable() + '</div>';
-
     function changeView(matrix) {
       currentView = matrix ? 'matrix' : 'karten';
       setPressed(byId('tab-karten'), !matrix);
       setPressed(byId('tab-matrix'), matrix);
-      document.querySelector('.toolbar').hidden = matrix;
       for (const id of ['exports', 'op-legende', 'karten']) byId(id).hidden = matrix;
       byId('matrix-view').hidden = !matrix;
       updateCards();
@@ -1167,28 +1090,20 @@
       const visible = visibleSteps();
       const keys = new Set(visible.flatMap(step => step.quellen));
       const sources = Object.fromEntries([...keys].map(key => [key, QUELLEN[key]]));
-      const payload = {titel: 'Ambulanter Patientenpfad', version: 'V1', stand: '2026-11-19', phasen: phases, datenraeume: rooms, operationen: operations, prozesse: visible, quellen: sources};
+      const payload = {titel: 'Ambulanter Patientenpfad', version: 'V1', stand: '2026-11-19', schemaVersion: 2, phasen: phases, datenorte: rooms, operationen: operations, prozesse: visible, quellen: sources};
       downloadFile('Ambulanter-Patientenpfad-V1.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
     }
 
     function exportCsv() {
-      const heading = ['Nr.', 'Phase', 'Titel', 'Akteure', 'Datenobjekte', 'Operation', 'Datenräume', 'Struktur', 'Informationsdomäne', 'Beschreibung', 'Rechtsgrundlagen', 'Standards und Verfahren', 'Quellen',
+      const heading = ['Nr.', 'Hauptphase', 'Phasen', 'Titel', 'Akteure', 'Prozessbereich', 'Fachpfad', 'Informationsdomäne', 'Datenobjekte', 'Operation', 'Datenorte', 'Strukturgrade', 'Objektvarianten (JSON)', 'Beschreibung', 'Recht und Regelwerk', 'Standards und Verfahren', 'Quellen',
         'Kommunikationswege', 'Aus Patientensicht', 'Aufgabe des Praxisteams', 'PVS-Funktion', 'Stand der PVS-Funktion', 'Vorschlag für die Schnittstelle'];
-      const rows = visibleSteps().map(step => [stepNumber(step), phases[step.phase], step.titel, step.akteur, step.objekt, operationText(step), step.dr.map(key => rooms[key]), step.struktur, step.domäne, step.detail, step.gesetze, step.standards, getSources(step).map(source => source.titel + ' (' + source.url + ')'),
+      const rows = visibleSteps().map(step => [stepNumber(step), phases[step.phase], step.zeiten.map(key => phases[key]), step.titel, step.akteur, step.bereich, step.setting,
+        uniqueValues(step.objekte.map(o => o.art)), namesOf(step), operationText(step), locationsOf(step).map(key => rooms[key]), uniqueValues(step.objekte.map(o => o.struktur)),
+        JSON.stringify(step.objekte.map(o => ({...o, ort: o.ort.map(key => rooms[key])}))), step.detail, step.gesetze, step.standards, getSources(step).map(source => source.titel + ' (' + source.url + ')'),
         step.kommunikation?.wege, step.kommunikation?.szenario, step.kommunikation?.team, step.kommunikation?.pvs, step.kommunikation?.status, step.kommunikation?.uebergabe]);
       const csvCell = value => '"' + String(Array.isArray(value) ? value.join(' | ') : value ?? '').replaceAll('"', '""') + '"';
       const csv = [heading, ...rows].map(row => row.map(csvCell).join(';')).join('\r\n');
       downloadFile('Ambulanter-Patientenpfad-V1.csv', '\uFEFF' + csv, 'text/csv;charset=utf-8');
-    }
-
-    function filterDescription() {
-      const parts = [phase === 'alle' ? 'Alle Phasen' : phases[phase]];
-      const labels = {dr: 'Datenraum', str: 'Struktur', law: 'Rechtsgrundlage', std: 'Standard'};
-      for (const [group, selectedItems] of Object.entries(selected)) {
-        if (selectedItems.size !== available[group].length) parts.push(labels[group] + ' (' + [...selectedItems].map(key => group === 'dr' ? rooms[key] : key).join(', ') + ')');
-      }
-      if (query) parts.push('Suche „' + query + '“');
-      return parts.join(', ');
     }
 
     function addPrintContent() {
@@ -1202,13 +1117,12 @@
       const date = new Date().toLocaleDateString('de-DE');
       let html = '<h2>' + (table ? 'Übersicht der Prozessschritte' : 'Prozessschritte im Detail') + '</h2><p class="print-metadata">' + visible.length + ' von ' + PROZESSE.length + ' Schritten. ' + escapeText(filterDescription()) + '. Export vom ' + date + '.</p>';
       if (table) {
-        html += '<table class="print-table"><thead><tr>' + ['Nr.', 'Phase', 'Schritt', 'Akteure', 'Datenobjekte und Operation', 'Datenräume', 'Fachquellen'].map(text => '<th scope="col">' + text + '</th>').join('') + '</tr></thead><tbody>' + visible.map(step => {
-          const values = [stepNumber(step), phases[step.phase], step.titel, step.akteur.join(', '), step.objekt.join(', ') + ' (' + operationText(step) + ')', step.dr.map(key => rooms[key]).join(', ')];
+        html += '<table class="print-table"><thead><tr>' + ['Nr.', 'Phasen', 'Schritt und Prozessbereich', 'Beteiligte', 'Informationsobjekte mit Datenort und Strukturgrad', 'Fachquellen'].map(text => '<th scope="col">' + text + '</th>').join('') + '</tr></thead><tbody>' + visible.map(step => {
+          const values = [stepNumber(step), step.zeiten.map(key => phases[key]).join(', '), [step.titel, step.bereich, ...step.setting].join(' · '), step.akteur.join(', '), step.objekte.map(o => [o.name, o.art, o.struktur, o.ort.map(key => rooms[key]).join(', ')].join(' · ')).join(' / ')];
           return '<tr>' + values.map(value => '<td>' + escapeText(value) + '</td>').join('') + '<td>' + sourceList(step) + '</td></tr>';
         }).join('') + '</tbody></table>';
       } else {
-        for (const [key, label] of Object.entries(phases)) {
-          const steps = visible.filter(step => step.phase === key);
+        for (const [key, label, steps] of resultSections(visible)) {
           if (!steps.length) continue;
           html += '<h2>' + label + '</h2>' + steps.map(step => '<article class="print-step"><h3>' + stepNumber(step) + ' ' + escapeText(step.titel) + '</h3><p>' + escapeText(step.akteur.join(', ')) + '</p><p>' + objectLine(step, '') + '</p><p>' + roomBadges(step) + '</p>' + details(step, '') + '</article>').join('');
         }
@@ -1234,10 +1148,8 @@
     const usedOperations = new Set(PROZESSE.flatMap(step => step.op.split(/,\s*/)));
     byId('op-legende').innerHTML = '<span class="matrix-legende-label">Operation</span>' + Object.entries(operations).filter(([key]) => usedOperations.has(key)).map(([key, label]) => '<span><span class="card-op">' + key + '</span>' + label + '</span>').join('');
     byId('model-size').textContent = PROZESSE.length + ' Schritte';
-    const entry = new URLSearchParams(location.search);
-    query = (entry.get('suche') || '').trim();
-    byId('search-input').value = query;
-    changeView(entry.get('ansicht') === 'matrix');
+    byId('room-count').textContent = available.dr.filter(key => !['ohne', 'offen'].includes(key)).length + ' Datenorte';
+    readEntry();
   </script>
 </body>
 </html>
