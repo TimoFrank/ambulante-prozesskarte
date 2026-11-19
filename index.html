@@ -903,7 +903,7 @@
         .replace(/\btelefonat(?:e|en)?\b/g, 'telefon')
         .replace(/gespraeche(?:n)?\b/g, 'gespraech')
         .replace(/\brueckrufe(?:n)?\b/g, 'rueckruf')
-        .replace(/\bmedizinische[rsn]? fachangestellte[rn]?\b/g, 'mfa');
+        .replace(/\bmedizinische[rsn]? fachangestellte[rn]?\b/g, 'medizinische fachangestellte mfa');
     }
 
     function matchesSearch(step) {
@@ -912,6 +912,7 @@
       if (step.kommunikation) {
         const contact = step.kommunikation;
         fields.push('Kommunikation', 'PVS', 'Praxisverwaltungssystem', ...contact.wege, contact.szenario, contact.team, contact.pvs, contact.status, contact.uebergabe);
+        if (contact.uebergabe) fields.push('Vorschlag für die Schnittstelle');
       }
       const searchable = searchText(fields.join(' '));
       return searchText(query).split(/\s+/).every(word => searchable.includes(word));
