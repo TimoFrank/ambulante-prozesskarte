@@ -52,7 +52,17 @@ const QUELLEN = {
   "nachEntlassbrief": {"titel": "Rahmenvertrag Entlassmanagement, insbesondere § 9 zum Entlassbrief", "url": "https://www.kbv.de/documents/infothek/rechtsquellen/weitere-vertraege/praxen/entlassmanagement/rahmenvertrag-entlassmanagement.pdf"},
   "nachMedikationsliste": {"titel": "gematik, Übernahme der Verordnungs- und Abgabedaten in die Medikationsliste", "url": "https://www.gematik.de/anwendungen/epa-fuer-alle/faq"},
   "praxismodell": {"titel": "gematik, Prozessmodell für Arztpraxen, Abschnitt 2.2.2.1, Version 3.8.1", "url": "https://gemspec.gematik.de/docs/gemILF/gemILF_PS_ePA/gemILF_PS_ePA_V3.8.1/#2.2.2.1"},
-  "impfdoku": {"titel": "IfSG § 22, Impfdokumentation", "url": "https://www.gesetze-im-internet.de/ifsg/__22.html"}
+  "impfdoku": {"titel": "IfSG § 22, Impfdokumentation", "url": "https://www.gesetze-im-internet.de/ifsg/__22.html"},
+  "praxisbarometer": {"titel": "IGES und KBV, digitale Angebote der Praxen, PraxisBarometer 2025, Seite 9", "url": "https://www.iges.com/sites/igesgruppe/iges/content/e2622/e2634/e5722/e16695/e16696/e16698/attr_objs16704/Folien_Pressegesprch_PraxisBarometer_20251015_ger.pdf#page=9"},
+  "pvs_anruf": {"titel": "tomedo, Produktbeispiel für Anrufliste und Rückruf", "url": "https://support.tomedo.de/handbuch/tomedo/kommunikation-mit-aerzten-patienten/anruf-panel/"},
+  "pvs_aufgaben": {"titel": "tomedo, Produktbeispiel für Aufgaben und Nachrichten im Team", "url": "https://support.tomedo.de/handbuch/tomedo/kommunikation-in-der-praxis/"},
+  "pvs_tablet": {"titel": "tomedo, Produktbeispiel für Anamnese am Praxis-Tablet", "url": "https://support.tomedo.de/handbuch/tomedo/formulare/patientenformulare/thieme-compliance-anamnese-aufklaerungsboegen/"},
+  "datenschutz_praxis": {"titel": "Datenschutzaufsicht Baden-Württemberg, Datenschutz in der Arztpraxis und Versand von Befunden", "url": "https://www.baden-wuerttemberg.datenschutz.de/faq-datenschutz-in-der-arztpraxis/"},
+  "tim_rolle": {"titel": "gematik, Nachrichten zwischen Versicherten und Praxen über den TI-Messenger", "url": "https://www.gematik.de/telematikinfrastruktur/transparenz/faktencheck-1/was-hat-der-ti-messenger-mit-der-epa-zu-tun"},
+  "tim_spec": {"titel": "gematik, Spezifikation TI-Messenger ePA, Version 1.3.1", "url": "https://gemspec.gematik.de/docs/gemSpec/gemSpec_TI-M_ePA/gemSpec_TI-M_ePA_V1.3.1/"},
+  "earztbrief_spec": {"titel": "KBV, Anforderungskatalog eArztbrief für Praxissoftware, Quartal 4/2026", "url": "https://update.kbv.de/ita-update/Vorquartale/ita_update_2026_Q4/Abrechnung/eArztbrief/KBV_ITA_VGEX_Anforderungskatalog_eArztbrief.pdf"},
+  "mfa_alltag": {"titel": "Elena Tsarouha und Team, Beobachtungsstudie zur Arbeitsteilung in fünf Hausarztpraxen, 2020", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7579545/"},
+  "befundruecklauf": {"titel": "BGH, Urteil zum ausstehenden Kontakt bei einem nachgereichten Befund, VI ZR 285/17", "url": "https://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/document.py?Art=en&Blank=1.pdf&Datum=2018-6-26&Gericht=bgh&anz=15&nr=86978&pos=11"}
 };
 
 const PROZESSE = [
@@ -76,7 +86,7 @@ const PROZESSE = [
     "nr": 2,
     "phase": "vor",
     "titel": "Anliegen und Dringlichkeit klären",
-    "akteur": ["Patientin oder Patient", "Praxisteam oder 116117"],
+    "akteur": ["Patientin oder Patient", "Praxisteam oder 116117", "Medizinische Fachangestellte"],
     "objekt": ["Beschwerden", "Einschätzung der Dringlichkeit"],
     "op": "E",
     "dr": ["versorgung", "portal"],
@@ -85,8 +95,16 @@ const PROZESSE = [
     "gesetze": ["SGB V"],
     "standards": [],
     "detail": "Am Telefon oder am Empfang schildert die Person ihre Beschwerden. Das Praxisteam klärt, wie schnell ärztlicher Kontakt nötig ist. Auch die 116117 unterstützt bei der Ersteinschätzung und bietet online ein Patienten-Navi an. Bei Lebensgefahr ist die 112 zuständig.",
-    "quellen": ["erstkontakt", "arztsuche"],
-    "suchbegriffe": ["Ersteinschätzung", "Triage", "Akutsprechstunde"]
+    "quellen": ["erstkontakt", "arztsuche", "pvs_anruf"],
+    "suchbegriffe": ["Ersteinschätzung", "Triage", "Akutsprechstunde", "Anrufliste", "Rückruf", "Telefonsprechstunde", "Anmeldung", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren", "Gespräch", "Gespräche"],
+    "kommunikation": {
+      "wege": ["Telefon", "Persönliches Gespräch"],
+      "szenario": "Eine Patientin ruft an, weil sie seit gestern Beschwerden hat. Sie möchte wissen, ob sie heute kommen kann. Als sie die Praxis zunächst nicht erreicht, hinterlässt sie eine Rückrufbitte.",
+      "team": "Eine MFA nimmt das Anliegen auf, klärt die Erreichbarkeit und zieht je nach Anliegen ärztlichen Rat hinzu. Beim Rückruf erfährt die Patientin, wie es weitergeht.",
+      "pvs": "Im Anruf-Panel von tomedo kann das Team zurückliegende Anrufe sehen und einen Rückruf starten.",
+      "status": "Produktbeispiel",
+      "uebergabe": "Eine Rückrufbitte aus einer App sollte sich wie eine Telefonnotiz einer Person und dem zuständigen Team zuordnen lassen. Bei der Übergabe sollte sichtbar bleiben, bis wann der Rückruf vereinbart ist."
+    }
   },
   {
     "nr": 3,
@@ -107,7 +125,7 @@ const PROZESSE = [
     "nr": 4,
     "phase": "vor",
     "titel": "Termin vereinbaren oder ändern",
-    "akteur": ["Patientin oder Patient", "Praxisteam"],
+    "akteur": ["Patientin oder Patient", "Praxisteam", "Medizinische Fachangestellte"],
     "objekt": ["Terminanfrage", "Terminbestätigung"],
     "op": "E",
     "dr": ["portal", "versorgung"],
@@ -116,13 +134,22 @@ const PROZESSE = [
     "gesetze": [],
     "standards": [],
     "detail": "Die Person vereinbart mit der Praxis einen Termin, etwa am Telefon oder über ein Buchungsportal. Ändert sich der Bedarf, sagt sie den Termin ab oder vereinbart einen neuen. Bei einer offenen Sprechstunde kann die Anmeldung direkt vor Ort erfolgen.",
-    "quellen": ["termin", "terminverwaltung"]
+    "quellen": ["termin", "terminverwaltung", "praxisbarometer"],
+    "kommunikation": {
+      "wege": ["Telefon", "Praxis-App"],
+      "szenario": "Ein Patient kann den vereinbarten Termin nicht wahrnehmen. Er bittet über die Praxis-App um einen anderen Tag und erhält die neue Uhrzeit.",
+      "team": "Die MFA prüft den Kalender, bietet einen freien Termin an und bestätigt die Änderung. Bei Unklarheiten fragt sie telefonisch nach.",
+      "pvs": "Eine Änderungsanfrage sollte mit dem bisherigen Termin verknüpft sein. Für Team und Patient sollte erkennbar sein, welcher Termin bestätigt ist.",
+      "status": "Gestaltungsvorschlag",
+      "uebergabe": "Buchungssystem und Praxissoftware könnten bei einer Änderung dieselbe Terminreferenz verwenden und eine Bestätigung an die anfragende Person zurückgeben."
+    },
+    "suchbegriffe": ["Terminabsage", "Terminverschiebung", "Terminbestätigung", "Online-Termin", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren", "Patienten-App", "Patienten-Apps", "Praxis-App", "Praxisapp"]
   },
   {
     "nr": 5,
     "phase": "vor",
     "titel": "Dringenden Facharzttermin vermitteln",
-    "akteur": ["Hausarztpraxis", "Facharztpraxis", "Patientin oder Patient", "Terminservicestelle"],
+    "akteur": ["Hausarztpraxis", "Facharztpraxis", "Patientin oder Patient", "Terminservicestelle", "Medizinische Fachangestellte"],
     "objekt": ["Überweisung", "Vermittelter Termin"],
     "op": "E",
     "dr": ["versorgung", "portal"],
@@ -132,13 +159,20 @@ const PROZESSE = [
     "standards": ["Muster 6"],
     "detail": "Wenn eine zeitnahe Abklärung nötig ist, kann die Hausarztpraxis den Termin direkt mit der Facharztpraxis vereinbaren. Eine weitere Möglichkeit ist die Terminservicestelle der 116117. Für diesen Weg benötigen Versicherte bei vielen Fachgruppen eine Überweisung mit Vermittlungscode.",
     "quellen": ["termin", "ueberweisung"],
-    "suchbegriffe": ["Hausarztvermittlung"]
+    "suchbegriffe": ["Hausarztvermittlung", "Terminvermittlung", "Rückruf", "Arzt-zu-Arzt-Kommunikation", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren"],
+    "kommunikation": {
+      "wege": ["Telefon"],
+      "szenario": "Die Hausarztpraxis kündigt einen Rückruf an. Später erfährt der Patient, wann und mit welchen Unterlagen er bei der Fachärztin erwartet wird.",
+      "team": "Die MFA stimmt den Termin mit der Facharztpraxis ab und gibt die Vereinbarung an den Patienten weiter. Bis dahin bleibt die Aufgabe offen.",
+      "pvs": "In der Praxissoftware sollte beim Vermittlungsauftrag stehen, wer die Facharztpraxis bereits erreicht hat und wer dem Patienten den Termin mitteilt.",
+      "status": "Gestaltungsvorschlag"
+    }
   },
   {
     "nr": 6,
     "phase": "vor",
     "titel": "Video oder Hausbesuch vereinbaren",
-    "akteur": ["Patientin oder Patient", "Ärztin oder Arzt"],
+    "akteur": ["Patientin oder Patient", "Ärztin oder Arzt", "Medizinische Fachangestellte"],
     "objekt": ["Kontaktform", "Termin oder Besuchsauftrag"],
     "op": "E",
     "dr": ["versorgung", "portal"],
@@ -148,13 +182,20 @@ const PROZESSE = [
     "standards": [],
     "detail": "Für geeignete Anliegen kann die Praxis eine Videosprechstunde anbieten. Wenn eine Erkrankung den Praxisbesuch verhindert oder unzumutbar macht, klärt die Praxis einen Hausbesuch. Meist übernimmt ihn die behandelnde Hausarztpraxis.",
     "quellen": ["video", "hausbesuch"],
-    "suchbegriffe": ["Hausbesuche", "Videosprechstunde"]
+    "suchbegriffe": ["Hausbesuche", "Videosprechstunde", "Videogespräch", "Gespräche", "Verbindungsabbruch", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren"],
+    "kommunikation": {
+      "wege": ["Video", "Telefon"],
+      "szenario": "Eine Patientin hat einen Videotermin vereinbart. Beim Verbindungsaufbau hört sie den Arzt nicht und ruft in der Praxis an.",
+      "team": "Das Praxisteam klärt, ob die Verbindung wiederhergestellt werden kann. Bei Bedarf stimmt es mit der Patientin einen anderen Kontakt ab.",
+      "pvs": "Ein abgebrochener Videokontakt sollte im Termin sichtbar bleiben, bis der weitere Kontakt geklärt ist.",
+      "status": "Gestaltungsvorschlag"
+    }
   },
   {
     "nr": 7,
     "phase": "vor",
     "titel": "Befunde und Medikationsplan bereitlegen",
-    "akteur": ["Patientin oder Patient", "Praxisteam"],
+    "akteur": ["Patientin oder Patient", "Praxisteam", "Medizinische Fachangestellte"],
     "objekt": ["Vorbefunde", "Medikationsplan", "Eigene Notizen"],
     "op": "L",
     "dr": ["versorgung", "epa"],
@@ -163,7 +204,16 @@ const PROZESSE = [
     "gesetze": [],
     "standards": [],
     "detail": "Für den Termin stellt die Person relevante Arztbriefe, Befunde und ihre aktuelle Medikation zusammen. Auch rezeptfreie Mittel und eigene Fragen gehören dazu. Die Unterlagen können aus Papierunterlagen oder, soweit vorhanden, aus der eigenen elektronischen Patientenakte stammen.",
-    "quellen": ["praxisvorbereitung", "epa-patient"]
+    "quellen": ["praxisvorbereitung", "epa-patient", "praxisbarometer", "datenschutz_praxis"],
+    "kommunikation": {
+      "wege": ["Geschützte E-Mail", "Praxis-App"],
+      "szenario": "Ein Patient hat den Arztbrief der Vorpraxis als PDF. Die neue Praxis teilt ihm mit, wie er den Brief vor dem Termin geschützt schicken kann.",
+      "team": "Die MFA prüft, zu wem der Brief gehört, übernimmt ihn in die richtige Akte und legt ihn der Ärztin für den Termin vor. Bei unklarer Zuordnung fragt sie nach.",
+      "pvs": "Eingehende Unterlagen sollten Absender und Eingangsdatum behalten. Ein ungeklärter Anhang sollte zur Prüfung liegen bleiben, bis die Zuordnung bestätigt ist.",
+      "status": "Gestaltungsvorschlag",
+      "uebergabe": "Beim Übertragen eines Anhangs aus der Praxis-App sollte die Praxissoftware den Bezug zur Person und zur ursprünglichen Nachricht übernehmen können."
+    },
+    "suchbegriffe": ["Vorbefund", "Dateianhang", "Posteingang", "Arztbrief", "Befund schicken", "MFA", "E-Mail", "E-Mails", "Email", "Emails", "E Mail", "E Mails", "Patienten-App", "Patienten-Apps", "Praxis-App", "Praxisapp"]
   },
   {
     "nr": 8,
@@ -193,7 +243,15 @@ const PROZESSE = [
     "gesetze": [],
     "standards": [],
     "detail": "Am Empfang nennt die Person ihren Namen und ihr Geburtsdatum. Das Praxisteam gleicht die Angaben mit der Patientenakte ab oder legt beim ersten Besuch eine Akte an. So werden Befunde und Aufträge der richtigen Person zugeordnet.",
-    "quellen": ["amb_ident"]
+    "quellen": ["amb_ident"],
+    "kommunikation": {
+      "wege": ["Persönliches Gespräch"],
+      "szenario": "Am Empfang meldet sich ein Patient an und sagt, dass seine Telefonnummer inzwischen eine andere ist. Für den späteren Rückruf nennt er die neue Nummer.",
+      "team": "Die MFA gleicht die Angaben mit ihm ab und hält den vereinbarten Rückrufweg fest.",
+      "pvs": "Beim Öffnen der Patientenakte sollte die MFA den vereinbarten Kontaktweg sehen und mit der Person berichtigen können.",
+      "status": "Gestaltungsvorschlag"
+    },
+    "suchbegriffe": ["Anmeldung", "Empfang", "Kontaktdaten", "Erreichbarkeit", "MFA", "Gespräch", "Gespräche"]
   },
   {
     "nr": 10,
@@ -215,7 +273,7 @@ const PROZESSE = [
     "nr": 11,
     "phase": "im",
     "titel": "Beschwerden und Vorgeschichte erfragen",
-    "akteur": ["Patientin oder Patient", "Ärztin oder Arzt"],
+    "akteur": ["Patientin oder Patient", "Ärztin oder Arzt", "Medizinische Fachangestellte"],
     "objekt": ["Anamnese"],
     "op": "E",
     "dr": ["versorgung"],
@@ -224,13 +282,22 @@ const PROZESSE = [
     "gesetze": ["BGB"],
     "standards": [],
     "detail": "Im Gespräch schildert die Person, was sie in die Praxis führt und seit wann die Beschwerden bestehen. Die Ärztin oder der Arzt fragt nach Vorerkrankungen und früheren Behandlungen und hält die für das Anliegen wichtigen Angaben fest.",
-    "quellen": ["amb_doku"]
+    "quellen": ["amb_doku", "pvs_tablet", "praxisbarometer"],
+    "kommunikation": {
+      "wege": ["Digitaler Anamnesebogen", "Persönliches Gespräch"],
+      "szenario": "Vor dem Arztgespräch beantwortet eine Patientin Fragen auf dem Tablet der Praxis. Im Sprechzimmer erläutert sie, was sie mit ihrer freien Antwort gemeint hat.",
+      "team": "Die MFA gibt den passenden Bogen aus. Die Ärztin liest die Antworten, fragt nach und ergänzt ihre eigene Einschätzung.",
+      "pvs": "Bei der dokumentierten Tablet-Anbindung von tomedo kann das Team einen Bogen für die ausgewählte Person anfordern. Die ausgefüllte Anamnese steht für das weitere Gespräch bereit.",
+      "status": "Produktbeispiel",
+      "uebergabe": "Ein externer Formularanbieter könnte Antworten mit Fragebezug, Herkunft und Ausfüllzeit an das PVS übergeben. Patientenangabe und ärztliche Ergänzung sollten unterscheidbar bleiben."
+    },
+    "suchbegriffe": ["Anamnesebögen", "Anamneseformular", "Fragebogen", "Tablet", "Aufnahmegespräch", "MFA", "Gespräch", "Gespräche"]
   },
   {
     "nr": 12,
     "phase": "im",
     "titel": "Vorbefunde und ePA sichten",
-    "akteur": ["Ärztin oder Arzt", "Patientin oder Patient"],
+    "akteur": ["Ärztin oder Arzt", "Patientin oder Patient", "Medizinische Fachangestellte"],
     "objekt": ["Arztbrief", "Vorbefund"],
     "op": "L",
     "dr": ["versorgung", "epa"],
@@ -239,7 +306,15 @@ const PROZESSE = [
     "gesetze": ["SGB V", "BGB"],
     "standards": [],
     "detail": "Die Praxis sichtet vorhandene Arztbriefe, Laborwerte oder andere Vorbefunde. Wenn sie für die konkrete Frage weitere Informationen in der elektronischen Patientenakte erwartet und Zugriff hat, kann sie diese dort einsehen. Relevante Informationen übernimmt sie in die eigene Behandlungsakte.",
-    "quellen": ["amb_epa", "amb_doku", "praxismodell"]
+    "quellen": ["amb_epa", "amb_doku", "praxismodell", "tim_rolle", "praxisbarometer"],
+    "kommunikation": {
+      "wege": ["Sicherer Messenger", "Praxis-App"],
+      "szenario": "Vor dem Facharzttermin fragt die Ärztin in einem geschützten Chat nach einem älteren Befund. Der Patient antwortet im selben Gespräch und sendet den Bericht als Anhang.",
+      "team": "Eine MFA prüft, ob der angeforderte Bericht vollständig eingegangen ist. Die Ärztin sichtet ihn. Ein zusätzliches Nachschlagen in der ePA ist ein eigener Arbeitsschritt.",
+      "pvs": "Beim Eingang einer Antwort sollte die Praxissoftware die offene Anfrage und den zugehörigen Vorbefund gemeinsam anzeigen.",
+      "status": "Gestaltungsvorschlag"
+    },
+    "suchbegriffe": ["Vorbefund", "Nachrichten", "Rückfrage", "Dateianhang", "Posteingang", "MFA", "Messenger", "Messenger-Nachricht", "Messenger-Nachrichten", "Chat", "Chatnachrichten", "Patienten-App", "Patienten-Apps", "Praxis-App", "Praxisapp"]
   },
   {
     "nr": 13,
@@ -347,7 +422,15 @@ const PROZESSE = [
     "gesetze": ["BGB"],
     "standards": [],
     "detail": "Die Ärztin oder der Arzt erläutert die bisherigen Befunde und offenen Fragen. Gemeinsam mit der Patientin oder dem Patienten bespricht sie oder er die Behandlungsmöglichkeiten und vereinbart das weitere Vorgehen. Dazu können auch eine Verlaufskontrolle oder weitere Untersuchungen gehören.",
-    "quellen": ["amb_beratung", "amb_doku"]
+    "quellen": ["amb_beratung", "amb_doku"],
+    "kommunikation": {
+      "wege": ["Persönliches Gespräch"],
+      "szenario": "Nach der Untersuchung bittet der Patient die Ärztin, den Befund noch einmal in eigenen Worten zu erklären. Gemeinsam vereinbaren sie, was er bis zur nächsten Kontrolle tun kann.",
+      "team": "Die Ärztin beantwortet die Fragen und hält die Vereinbarung fest. Bei der Terminvergabe kann das Team daran anknüpfen.",
+      "pvs": "Bei der Wiedervorstellung sollte die zuletzt vereinbarte Maßnahme im Behandlungsverlauf auffindbar sein.",
+      "status": "Gestaltungsvorschlag"
+    },
+    "suchbegriffe": ["Arztgespräch", "Beratungsgespräch", "Befundgespräch", "Arzt-Patienten-Kommunikation", "Gespräch", "Gespräche"]
   },
   {
     "nr": 20,
@@ -530,7 +613,14 @@ const PROZESSE = [
     "standards": [],
     "detail": "Im persönlichen Gespräch erklärt die Ärztin oder der Arzt den geplanten Eingriff, seine Risiken und gegebenenfalls Behandlungsalternativen. Die Person kann Fragen stellen und über die Einwilligung entscheiden. Die Praxis klärt die nötige Vorbereitung und händigt Kopien der unterschriebenen Unterlagen aus.",
     "quellen": ["amb_aufklaerung", "amb_einwilligung"],
-    "suchbegriffe": ["ambulante Operation", "ambulante Operationen", "ambulante OP"]
+    "suchbegriffe": ["ambulante Operation", "ambulante Operationen", "ambulante OP", "Aufklärungsgespräch", "Anästhesiegespräch", "OP-Gespräch", "Gespräch", "Gespräche"],
+    "kommunikation": {
+      "wege": ["Persönliches Gespräch"],
+      "szenario": "Vor einer ambulanten Operation bringt eine Patientin Fragen zur Narkose mit. Im Aufklärungsgespräch erhält sie Antworten und entscheidet anschließend über den Eingriff.",
+      "team": "Die verantwortlichen Behandelnden besprechen den Eingriff und die offenen Fragen. Das Team dokumentiert die Aufklärung und händigt der Patientin die vorgesehenen Kopien aus.",
+      "pvs": "Das Team sollte erkennen können, zu welchem Eingriff das Gespräch geführt wurde, welche Rückfrage noch offen ist und welche Unterlagen die Patientin erhalten hat.",
+      "status": "Gestaltungsvorschlag"
+    }
   },
   {
     "nr": 32,
@@ -577,14 +667,21 @@ const PROZESSE = [
     "gesetze": ["BGB"],
     "standards": ["LDT"],
     "detail": "Das Labor sendet den Befund an die Praxis. Das Praxisteam ordnet ihn der richtigen Person und dem Auftrag zu. Die Ärztin oder der Arzt bewertet die Werte im Zusammenhang mit den Beschwerden und hält fest, ob Handlungsbedarf besteht.",
-    "quellen": ["nachLabor", "amb_doku"],
-    "suchbegriffe": ["Laborergebnisse"]
+    "quellen": ["nachLabor", "amb_doku", "befundruecklauf"],
+    "suchbegriffe": ["Laborergebnisse", "Posteingang", "Befundeingang", "Teamintern", "Arbeitsliste", "MFA"],
+    "kommunikation": {
+      "wege": ["Interne Nachricht im Praxisteam"],
+      "szenario": "Eine Patientin wartet nach der Blutabnahme auf eine Nachricht. Ihr Befund ist inzwischen in der Praxis angekommen.",
+      "team": "Die MFA ordnet den Befund der richtigen Person zu. Die Ärztin bewertet das Ergebnis und legt fest, ob und bis wann Kontakt aufgenommen werden soll.",
+      "pvs": "Zu einem eingegangenen Befund sollte das Team sehen, wer ihn noch sichten muss, welche Rückmeldung vereinbart ist und wer sie übernimmt.",
+      "status": "Gestaltungsvorschlag"
+    }
   },
   {
     "nr": 35,
     "phase": "nach",
     "titel": "Befunde besprechen und nächste Schritte vereinbaren",
-    "akteur": ["Patientin oder Patient", "Ärztin oder Arzt"],
+    "akteur": ["Patientin oder Patient", "Ärztin oder Arzt", "Medizinische Fachangestellte"],
     "objekt": ["Gesprächsnotiz", "Vereinbarter Behandlungsplan"],
     "op": "E",
     "dr": ["versorgung"],
@@ -593,7 +690,15 @@ const PROZESSE = [
     "gesetze": ["BGB"],
     "standards": [],
     "detail": "Die Ärztin oder der Arzt erklärt, was die Untersuchung ergeben hat und was noch unklar ist. Mit der Patientin oder dem Patienten vereinbart sie oder er, ob eine Behandlung beginnt, eine weitere Untersuchung folgt oder zunächst eine Kontrolle ausreicht.",
-    "quellen": ["amb_beratung", "amb_doku"]
+    "quellen": ["amb_beratung", "amb_doku", "befundruecklauf"],
+    "kommunikation": {
+      "wege": ["Telefon", "Persönliches Gespräch"],
+      "szenario": "Ein Patient erwartet einen Rückruf zu seinen Laborwerten. Beim ersten Anruf ist er unterwegs. Später erreicht ihn die Ärztin und bespricht mit ihm den Befund.",
+      "team": "Die MFA hält den erfolglosen Kontaktversuch fest und vereinbart einen neuen Rückruf. Nach dem Arztgespräch sieht das Team, welche Kontrolle verabredet wurde.",
+      "pvs": "Eine Rückrufaufgabe sollte Kontaktversuch, zuständige Person und nächsten Termin zeigen und bis zur geklärten Rückmeldung offen bleiben.",
+      "status": "Gestaltungsvorschlag"
+    },
+    "suchbegriffe": ["Rückrufliste", "Wiedervorlage", "nicht erreicht", "Befundmitteilung", "Laborwerte", "Rückrufbitte", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren", "Gespräch", "Gespräche"]
   },
   {
     "nr": 36,
@@ -629,7 +734,7 @@ const PROZESSE = [
     "nr": 38,
     "phase": "nach",
     "titel": "Facharztbrief an die Hausarztpraxis übermitteln",
-    "akteur": ["Facharztpraxis", "Hausarztpraxis"],
+    "akteur": ["Facharztpraxis", "Hausarztpraxis", "Medizinische Fachangestellte"],
     "objekt": ["Facharztbrief"],
     "op": "E",
     "dr": ["versorgung"],
@@ -638,7 +743,15 @@ const PROZESSE = [
     "gesetze": ["SGB V"],
     "standards": ["KIM"],
     "detail": "Mit Zustimmung der Patientin oder des Patienten berichtet die Facharztpraxis der Hausarztpraxis über Befunde und Behandlungsempfehlungen. Ein elektronischer Arztbrief kann direkt über den sicheren Nachrichtendienst KIM versandt werden. Die Hausarztpraxis nutzt ihn für die weitere Behandlung.",
-    "quellen": ["nachBrief", "nachHausarzt"]
+    "quellen": ["nachBrief", "nachHausarzt", "earztbrief_spec"],
+    "kommunikation": {
+      "wege": ["KIM zwischen Praxen"],
+      "szenario": "Nach der fachärztlichen Untersuchung fragt die Patientin, ob ihre Hausärztin den Bericht vor dem nächsten Termin erhält.",
+      "team": "Die Facharztpraxis versendet den elektronischen Arztbrief über KIM. In der Hausarztpraxis wird der Eingang der Patientin zugeordnet und der Hausärztin zur Sichtung vorgelegt.",
+      "pvs": "Der KBV-Anforderungskatalog für den eArztbrief beschreibt Erstellung, Versand und Empfang in der Praxissoftware. KIM überträgt den Brief zwischen den Einrichtungen.",
+      "status": "Spezifiziert"
+    },
+    "suchbegriffe": ["Arzt-zu-Arzt-Kommunikation", "Nachrichten zwischen Praxen", "Posteingang", "Befundversand", "MFA"]
   },
   {
     "nr": 39,
@@ -653,7 +766,16 @@ const PROZESSE = [
     "gesetze": ["SGB V"],
     "standards": [],
     "detail": "Die Praxis informiert über die vorgesehenen Einträge und berücksichtigt einen Widerspruch. Liegen die Voraussetzungen vor, stellt sie elektronisch verfügbare Berichte aus der aktuellen Behandlung in die ePA, etwa einen Laborbefund oder einen Bericht zur Darmspiegelung. Ist ein Befund für die Weiterbehandlung bestimmt, sendet ihn die Praxis auch direkt an die zuständige Stelle.",
-    "quellen": ["nachEpa"]
+    "quellen": ["nachEpa", "tim_rolle", "tim_spec"],
+    "kommunikation": {
+      "wege": ["Sicherer Messenger", "Praxis-App"],
+      "szenario": "Eine Patientin möchte den bereits besprochenen Befund auch selbst nachlesen. In einem von der Praxis eröffneten geschützten Chat erhält sie eine Kopie und kann eine Rückfrage stellen.",
+      "team": "Das Praxisteam prüft die Empfängerin und klärt ihre Rückfrage. Ob der Befund zusätzlich in der ePA bereitgestellt wird, ist ein eigener Vorgang.",
+      "pvs": "Für den Nachrichtenaustausch mit Versicherten ist die TI-Messenger-Schnittstelle spezifiziert. Wie ein PVS den Chat in der Praxisakte anzeigt, hängt von der Anbindung ab.",
+      "status": "Spezifiziert",
+      "uebergabe": "Praxissoftware und Messenger könnten beim Übernehmen einer Rückfrage den Bezug zum zuvor versandten Befund erhalten. Im Praxisteam ließe sie sich damit der zuständigen Person zuweisen."
+    },
+    "suchbegriffe": ["Arzt-Patienten-Kommunikation", "Befundkopie", "Nachricht", "TI-Messenger", "Befund an Patient", "MFA", "Messenger", "Messenger-Nachricht", "Messenger-Nachrichten", "Chat", "Chatnachrichten", "Patienten-App", "Patienten-Apps", "Praxis-App", "Praxisapp"]
   },
   {
     "nr": 40,
@@ -700,7 +822,16 @@ const PROZESSE = [
     "gesetze": ["SGB V"],
     "standards": ["E-Rezept"],
     "detail": "Wer ein Medikament weiter benötigt, kann das Folgerezept zum Beispiel telefonisch anfragen. Die Ärztin oder der Arzt prüft die Verordnung und entscheidet, ob ein persönlicher Kontakt nötig ist. Nach der elektronischen Signatur kann das E-Rezept in der Apotheke eingelöst werden.",
-    "quellen": ["nachFolgerezept", "nachRezept"]
+    "quellen": ["nachFolgerezept", "nachRezept", "mfa_alltag", "praxisbarometer", "pvs_aufgaben"],
+    "kommunikation": {
+      "wege": ["Telefon", "Praxis-App", "Interne Nachricht im Praxisteam"],
+      "szenario": "Ein Patient bittet über die Praxis-App um sein Folgerezept. Später ruft er an, weil er wissen möchte, ob er schon in die Apotheke gehen kann.",
+      "team": "Die MFA findet die erste Anfrage und legt sie der Ärztin zur Entscheidung vor. Nach der ärztlichen Prüfung und gegebenenfalls der Signatur kann das Team dem Patienten antworten.",
+      "pvs": "tomedo beschreibt Aufgaben, die das Team einer zuständigen Person zuweisen kann. Die Praxis kann diese Funktion für die interne Übergabe eines Rezeptwunsches nutzen.",
+      "status": "Produktbeispiel",
+      "uebergabe": "Für den Austausch zwischen App und PVS wäre eine gemeinsame Anfragenummer sinnvoll. Eine Rückmeldung sollte unterscheiden, ob die Anfrage eingegangen oder das Rezept bereits ausgestellt ist."
+    },
+    "suchbegriffe": ["Rezepttelefon", "Nachricht", "Rückfrage", "Rezeptwunsch", "Doppelanfrage", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren", "Patienten-App", "Patienten-Apps", "Praxis-App", "Praxisapp"]
   },
   {
     "nr": 43,
@@ -730,8 +861,15 @@ const PROZESSE = [
     "gesetze": [],
     "standards": [],
     "detail": "Die Praxis vereinbart mit der Patientin oder dem Patienten einen Kontrolltermin oder einen Zeitraum zur Wiedervorstellung. Wer eine Erinnerung wünscht, kann mit der Praxis festlegen, auf welchem Weg sie daran erinnert, etwa telefonisch.",
-    "quellen": ["nachRecall"],
-    "suchbegriffe": ["Recall"]
+    "quellen": ["nachRecall", "praxisbarometer"],
+    "suchbegriffe": ["Recall", "Terminerinnerung", "Rückruf", "Terminabsage", "Wiedervorlage", "MFA", "Telefonat", "Telefonate", "Anruf", "Anrufe", "Telefonieren", "Patienten-App", "Patienten-Apps", "Praxis-App", "Praxisapp"],
+    "kommunikation": {
+      "wege": ["Telefon", "Praxis-App"],
+      "szenario": "Eine Patientin hat einer Erinnerung an ihre Kontrolle zugestimmt. Als die Erinnerung kommt, ruft sie an und bittet um einen späteren Termin.",
+      "team": "Die MFA prüft den vereinbarten Kontaktweg und stimmt den Ersatztermin mit der Patientin ab.",
+      "pvs": "Im Praxisverwaltungssystem sollten die gewünschte Art der Erinnerung und die neue Terminvereinbarung zusammen auffindbar sein.",
+      "status": "Gestaltungsvorschlag"
+    }
   },
   {
     "nr": 45,

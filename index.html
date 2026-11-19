@@ -698,12 +698,19 @@
     .scope-details-body h2:first-child { margin-top: 0; }
     .filter-label, .phase-section-count, .card-nr, .matrix-legende-label, .detail-section-label, .modal-nr, .matrix-table th:first-child { color: #606b7c; }
     .filter-row .search-input { min-width: 0; }
+    #communication-search[aria-pressed=true] { border-color: #536a9a; background: #eaf0fa; color: #1c3874; }
     .main { min-width: 0; }
     .prozess-card { padding: 0; min-width: 0; overflow-wrap: anywhere; }
     .card-trigger { appearance: none; width: 100%; padding: 14px 16px; color: inherit; background: none; border: 0; border-radius: inherit; font: inherit; cursor: pointer; text-align: left; }
     .card-meta, .card-titel, .card-objekt { display: block; }
     .card-meta { text-align: right; }
     .detail-box { margin: 0 16px 14px; cursor: auto; }
+    .contact-detail { border-left: 3px solid #9aaecb; padding-left: 10px; margin-top: 12px; }
+    .contact-detail h3 { margin: 0; font-size: 14px; }
+    .result-routes { display: block; margin: 3px 0; color: #455670; font-size: 12px; }
+    .contact-routes { color: #455670; font-size: 12px; }
+    .contact-detail dt { margin-top: 7px; font-weight: 650; }
+    .contact-detail dd { margin: 0; }
     .detail-section p + p { margin-top: 5px; }
     .detail-section ul { margin-left: 17px; }
     .law-toggle:not(.active), .str-toggle:not(.active), .std-toggle:not(.active) { opacity: .72; border-style: dashed; }
@@ -783,6 +790,8 @@
         <p>Der Arbeitskreis Patientenportale der INA hat für den Weg vor, während und nach einem Krankenhausaufenthalt 25 aus über 80 möglichen Schritten ausgewählt. Drei Unterarbeitsgruppen untersuchten zwölf davon vertieft. Die Seiten 6 und 7 erläutern das Prozessmodell. Kapitel 3.3 auf Seite 24 beschreibt die Auswahl der Schritte. <a href="https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=8" target="_blank" rel="noopener">Positionspapier, Seite 7</a>. <a href="https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25" target="_blank" rel="noopener">Positionspapier, Seite 24</a>. <a href="https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html" target="_blank" rel="noopener">Interaktive Originalkarte</a>.</p>
         <h2>Ambulante Arbeitsfassung</h2>
         <p>Diese erste Version betrachtet die vertragsärztliche Versorgung in Deutschland. Das Projekt Versorgungsprozesse hat die ambulanten Schritte ausgewählt und anhand der jeweils verlinkten Fachquellen beschrieben. Für die Zahl ambulanter Schritte gibt es in diesem Modell keine feste Vorgabe. Je nach Anliegen überspringen Patientinnen und Patienten einzelne Schritte oder durchlaufen sie wiederholt. Zur Behandlung in der Praxis zählen auch Telefonate, Videosprechstunden und Hausbesuche.</p>
+        <h2>Kommunikation in der Praxissoftware</h2>
+        <p>Die Kommunikationsbeispiele zeigen, was eine Person erlebt und wer das Anliegen im Team übernimmt. „Produktbeispiel“ verweist auf eine dokumentierte Funktion eines Praxisverwaltungssystems (PVS). „Spezifiziert“ verweist auf technische Vorgaben für die genannte Anwendung. Die Gestaltungsvorschläge stammen aus diesem Projekt. Bei Übergaben zwischen Systemen zeigen sie, was die gematik, die KBV und die Hersteller gemeinsam klären könnten. <a href="https://fachportal.gematik.de/zielgruppen/primaersystemhersteller" target="_blank" rel="noopener">gematik zu Schnittstellen für Primärsysteme</a></p>
         <h2>Datenräume und Rechtsgrundlagen</h2>
         <p>Die Datenräume zeigen, wo Informationen je nach Verlauf verfügbar sein können. Versorgung umfasst das Praxisverwaltungssystem und weitere Systeme der Behandlung. Ein Portal ist ein optionaler Zugang. In der elektronischen Patientenakte (ePA) gelten die jeweiligen Zugriffsrechte. Kasse / KV fasst zwei getrennte Empfänger zusammen, die Krankenkasse für Versicherungsangelegenheiten und die Kassenärztliche Vereinigung für die Abrechnung. Welche Empfänger und Rechte gelten, hängt vom Vorgang ab. Die Struktur beschreibt das typische Hauptdokument eines Schritts. Die aufgeführten Formate und Verfahren sind Beispiele. Die Rechtsgrundlagen geben eine fachliche Orientierung.</p>
         <div class="license">Viewer nach dem <a href="https://github.com/oeme-github/INA-ePA-und-Patientenportale/tree/c2d411a2d262611ec3d6323689960f9d5f7e6235" target="_blank" rel="noopener">Original von oeme</a>, © 2026 oeme. Für Versorgungsprozesse überarbeitet am 19.11.2026. <a href="LICENSE" target="_blank" rel="noopener">Lizenz EUPL 1.2 oder später</a>.</div>
@@ -802,7 +811,8 @@
       <div class="filter-row" id="law-row" role="group" aria-label="Rechtsgrundlage"><span class="filter-label">Rechtsgrundlage</span></div>
       <div class="filter-row" id="std-row" role="group" aria-label="Standard und Verfahren"><span class="filter-label">Standard</span></div>
     </div>
-    <div class="filter-row"><label class="filter-label" for="search-input">Suche</label><input class="search-input" type="search" id="search-input" placeholder="Titel, Akteur, Datenobjekt, Beschreibung …"></div>
+    <div class="filter-row"><label class="filter-label" for="search-input">Suche</label><input class="search-input" type="search" id="search-input" placeholder="Prozessschritte suchen">
+      <button id="communication-search" type="button" class="btn-export" aria-pressed="false" aria-label="Suchthema Kommunikation" aria-controls="karten">Kommunikation</button></div>
   </section>
   <main class="main">
     <div class="export-bar" id="exports">
@@ -885,11 +895,26 @@
       return '<ul>' + sources.map(source => '<li><a href="' + escapeText(source.url) + '" target="_blank" rel="noopener">' + escapeText(source.titel) + '</a></li>').join('') + '</ul>';
     }
 
+    function searchText(value) {
+      return value.toLocaleLowerCase('de').normalize('NFC')
+        .replaceAll('ä', 'ae').replaceAll('ö', 'oe').replaceAll('ü', 'ue').replaceAll('ß', 'ss')
+        .replace(/[-‐‑]/g, ' ')
+        .replace(/\be\s*mails?\b/g, 'email')
+        .replace(/\btelefonat(?:e|en)?\b/g, 'telefon')
+        .replace(/gespraeche(?:n)?\b/g, 'gespraech')
+        .replace(/\brueckrufe(?:n)?\b/g, 'rueckruf')
+        .replace(/\bmedizinische[rsn]? fachangestellte[rn]?\b/g, 'mfa');
+    }
+
     function matchesSearch(step) {
       if (!query) return true;
       const fields = [step.titel, ...step.akteur, ...step.objekt, step.detail, step.domäne, step.struktur, ...step.gesetze, ...step.standards, ...step.dr.map(key => rooms[key]), ...(step.suchbegriffe || [])];
-      const searchable = fields.join(' ').toLocaleLowerCase('de');
-      return query.toLocaleLowerCase('de').split(/\s+/).every(word => searchable.includes(word));
+      if (step.kommunikation) {
+        const contact = step.kommunikation;
+        fields.push('Kommunikation', 'PVS', 'Praxisverwaltungssystem', ...contact.wege, contact.szenario, contact.team, contact.pvs, contact.status, contact.uebergabe);
+      }
+      const searchable = searchText(fields.join(' '));
+      return searchText(query).split(/\s+/).every(word => searchable.includes(word));
     }
 
     function matchesGroup(items, group) {
@@ -918,9 +943,21 @@
       return items.map(item => '<span class="' + css + '">' + mark(item, search) + '</span>').join(' ');
     }
 
+    function communicationDetails(contact, search) {
+      if (!contact) return '';
+      const line = (label, value) => value ? '<dt>' + label + '</dt><dd>' + mark(value, search) + '</dd>' : '';
+      return '<section class="contact-detail"><h3>' + mark('Kommunikation', search) + '</h3>'
+        + '<p class="contact-routes">' + mark(contact.wege.join(' · '), search) + '</p><dl>'
+        + line('Aus Patientensicht', contact.szenario)
+        + line('Aufgabe des Praxisteams', contact.team)
+        + line('PVS-Funktion · ' + escapeText(contact.status), contact.pvs)
+        + line('Vorschlag für die Schnittstelle', contact.uebergabe) + '</dl></section>';
+    }
+
     function details(step, search = query) {
       const text = field => escapeText(step[field]).split('\n').map(line => '<p>' + line + '</p>').join('');
       return '<div class="detail-box"><p>' + mark(step.detail, search) + '</p>'
+        + communicationDetails(step.kommunikation, search)
         + detailSection('Informationsdomäne', chips([step.domäne], 'domaene-chip', search))
         + detailSection('Rechtsgrundlagen', chips(step.gesetze, 'gesetz-chip', search))
         + detailSection('Standards und Verfahren', chips(step.standards, 'standard-chip', search))
@@ -938,14 +975,17 @@
     function card(step) {
       const enabled = matchesDimensions(step);
       const open = enabled && expanded.has(step.nr);
+      const routes = step.kommunikation && query.toLocaleLowerCase('de') === 'kommunikation'
+        ? '<span class="result-routes">' + escapeText(step.kommunikation.wege.join(' · ')) + '</span>' : '';
       return '<article data-nr="' + step.nr + '" class="prozess-card phase-' + step.phase + (enabled ? '' : ' dimmed') + (open ? ' open' : '') + '">'
         + '<button class="card-trigger" aria-label="' + escapeText(stepNumber(step) + ' ' + step.titel) + '" aria-expanded="' + open + '" ' + (enabled ? '' : 'disabled') + '>'
         + '<span class="card-meta"><span class="card-nr">' + stepNumber(step) + '</span></span><span class="card-titel">' + mark(step.titel) + '</span>'
-        + '<span class="card-akteur">' + chips(step.akteur, 'akteur-tag', query) + '</span><span class="card-objekt">' + objectLine(step, query) + '</span>'
+        + '<span class="card-akteur">' + chips(step.akteur, 'akteur-tag', query) + '</span>' + routes + '<span class="card-objekt">' + objectLine(step, query) + '</span>'
         + '<span class="card-badges">' + roomBadges(step) + '</span></button>' + (open ? details(step) : '') + '</article>';
     }
 
     function updateCards(focusStep) {
+      setPressed(byId('communication-search'), query.toLocaleLowerCase('de') === 'kommunikation');
       const results = visibleSteps();
       const complete = results.length > 0 && results.every(step => expanded.has(step.nr));
       byId('counter').innerHTML = '<strong>' + results.length + ' von ' + PROZESSE.length + '</strong> Prozessschritten sichtbar';
@@ -1023,6 +1063,11 @@
       byId('mobile-filter-toggle').textContent = open ? 'Weitere Filter ausblenden' : 'Weitere Filter anzeigen';
     });
 
+    byId('communication-search').addEventListener('click', () => {
+      query = query.toLocaleLowerCase('de') === 'kommunikation' ? '' : 'Kommunikation';
+      byId('search-input').value = query;
+      updateCards();
+    });
     byId('search-input').addEventListener('input', event => {
       query = event.target.value.trim();
       updateCards();
@@ -1126,8 +1171,10 @@
     }
 
     function exportCsv() {
-      const heading = ['Nr.', 'Phase', 'Titel', 'Akteure', 'Datenobjekte', 'Operation', 'Datenräume', 'Struktur', 'Informationsdomäne', 'Beschreibung', 'Rechtsgrundlagen', 'Standards und Verfahren', 'Quellen'];
-      const rows = visibleSteps().map(step => [stepNumber(step), phases[step.phase], step.titel, step.akteur, step.objekt, operationText(step), step.dr.map(key => rooms[key]), step.struktur, step.domäne, step.detail, step.gesetze, step.standards, getSources(step).map(source => source.titel + ' (' + source.url + ')')]);
+      const heading = ['Nr.', 'Phase', 'Titel', 'Akteure', 'Datenobjekte', 'Operation', 'Datenräume', 'Struktur', 'Informationsdomäne', 'Beschreibung', 'Rechtsgrundlagen', 'Standards und Verfahren', 'Quellen',
+        'Kommunikationswege', 'Aus Patientensicht', 'Aufgabe des Praxisteams', 'PVS-Funktion', 'Stand der PVS-Funktion', 'Vorschlag für die Schnittstelle'];
+      const rows = visibleSteps().map(step => [stepNumber(step), phases[step.phase], step.titel, step.akteur, step.objekt, operationText(step), step.dr.map(key => rooms[key]), step.struktur, step.domäne, step.detail, step.gesetze, step.standards, getSources(step).map(source => source.titel + ' (' + source.url + ')'),
+        step.kommunikation?.wege, step.kommunikation?.szenario, step.kommunikation?.team, step.kommunikation?.pvs, step.kommunikation?.status, step.kommunikation?.uebergabe]);
       const csvCell = value => '"' + String(Array.isArray(value) ? value.join(' | ') : value ?? '').replaceAll('"', '""') + '"';
       const csv = [heading, ...rows].map(row => row.map(csvCell).join(';')).join('\r\n');
       downloadFile('Ambulanter-Patientenpfad-V1.csv', '\uFEFF' + csv, 'text/csv;charset=utf-8');
