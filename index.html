@@ -1186,7 +1186,10 @@
     const usedOperations = new Set(PROZESSE.flatMap(step => step.op.split(/,\s*/)));
     byId('op-legende').innerHTML = '<span class="matrix-legende-label">Operation</span>' + Object.entries(operations).filter(([key]) => usedOperations.has(key)).map(([key, label]) => '<span><span class="card-op">' + key + '</span>' + label + '</span>').join('');
     byId('model-size').textContent = PROZESSE.length + ' Schritte';
-    updateCards();
+    const entry = new URLSearchParams(location.search);
+    query = (entry.get('suche') || '').trim();
+    byId('search-input').value = query;
+    changeView(entry.get('ansicht') === 'matrix');
   </script>
 </body>
 </html>
