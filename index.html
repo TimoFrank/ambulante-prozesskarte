@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ambulanter Patientenpfad | Interaktive Prozesskarte</title>
+  <meta name="description" content="Interaktive Prozesskarte für die ambulante Versorgung in Hausarztpraxen und Facharztpraxen.">
+  <!-- Viewer adapted from patientenpfad_interaktiv.html, Copyright (c) 2026 oeme, EUPL-1.2-or-later.
+       Upstream: https://github.com/oeme-github/INA-ePA-und-Patientenportale/tree/c2d411a2d262611ec3d6323689960f9d5f7e6235
+       Modified 2026-11-19 for Versorgungsprozesse. See LICENSE in this directory. -->
+  <style>
+    :root {
+      --c-text-1:   #111827;
+      --c-text-2:   #374151;
+      --c-text-3:   #6B7280;
+      --c-text-4:   #9CA3AF;
+      --c-bg:       #F3F4F6;
+      --c-surface:  #ffffff;
+      --c-border-1: #E5E7EB;
+      --c-border-2: #D1D5DB;
+      --c-border-3: #9CA3AF;
+      --r-sm: 6px;
+      --r-md: 8px;
+      --r-lg: 12px;
+
+      --phase-vor:  #059669;
+      --phase-im:   #4F46E5;
+      --phase-nach: #B45309;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--c-bg);
+      color: var(--c-text-1);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border-1);
+      padding: 16px 24px 14px;
+    }
+    .page-header h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .page-header p {
+      font-size: 12px;
+      color: var(--c-text-3);
+      margin-top: 3px;
+    }
+    .page-header p.scope-note {
+      color: var(--c-text-2);
+      margin-top: 8px;
+      max-width: 900px;
+      line-height: 1.45;
+    }
+    .scope-details {
+      margin-top: 6px;
+      max-width: 900px;
+    }
+    .scope-details summary {
+      font-size: 12px;
+      color: var(--c-text-3);
+      cursor: pointer;
+      user-select: none;
+    }
+    .scope-details summary:hover { color: var(--c-text-1); }
+    .scope-details-body {
+      margin-top: 8px;
+      padding: 12px 14px;
+      background: var(--c-bg);
+      border: 1px solid var(--c-border-1);
+      border-radius: var(--r-md);
+    }
+    .page-header .scope-details-body p {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--c-text-2);
+      margin-top: 0;
+    }
+    .page-header .scope-details-body p + p { margin-top: 8px; }
+    .scope-details-body strong { color: var(--c-text-1); }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border-1);
+      padding: 12px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--c-text-4);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      min-width: 110px;
+    }
+
+    /* Phase-Tabs */
+    .phase-tab {
+      padding: 5px 13px;
+      border: 1px solid var(--c-border-2);
+      border-radius: var(--r-sm);
+      background: transparent;
+      color: var(--c-text-3);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .phase-tab:hover:not(.active) {
+      border-color: var(--c-border-3);
+      color: var(--c-text-2);
+    }
+    .phase-tab.active {
+      background: var(--c-text-1);
+      border-color: var(--c-text-1);
+      color: #fff;
+    }
+    .phase-tab .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Datenraum-Toggles */
+    .dr-toggle {
+      padding: 4px 11px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.12s;
+      opacity: 0.35;
+    }
+    .dr-toggle.active { opacity: 1; }
+    .dr-portal     { background: #DBEAFE; color: #1E40AF; border-color: #3B82F6; }
+    .dr-versorgung { background: #D1FAE5; color: #065F46; border-color: #10B981; }
+    .dr-epa        { background: #EDE9FE; color: #4C1D95; border-color: #7C3AED; }
+    .dr-kostentraeger       { background: #FEE2E2; color: #7F1D1D; border-color: #EF4444; }
+
+    /* Rechtsgrundlagen-Toggles */
+    .law-toggle {
+      padding: 4px 10px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-border-2);
+      background: var(--c-surface);
+      color: var(--c-text-3);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s;
+      opacity: 0.45;
+    }
+    .law-toggle.active {
+      background: #F0FDF4;
+      border-color: #4ADE80;
+      color: #14532D;
+      opacity: 1;
+    }
+    .law-toggle:hover:not(.active) {
+      border-color: var(--c-border-3);
+      color: var(--c-text-2);
+      opacity: 0.8;
+    }
+
+    /* ── Hauptbereich ── */
+    .main {
+      padding: 20px 24px;
+    }
+
+    .counter {
+      font-size: 12px;
+      color: var(--c-text-3);
+      margin-bottom: 14px;
+    }
+    .counter strong { color: var(--c-text-2); font-weight: 600; }
+
+    /* ── Phasen-Abschnitte ── */
+    .phase-section { margin-bottom: 32px; }
+
+    .phase-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: var(--r-md);
+      margin-bottom: 14px;
+      border-left: 4px solid transparent;
+    }
+    .phase-section-header.phase-vor  { background: #F0FDF4; border-color: var(--phase-vor); }
+    .phase-section-header.phase-im   { background: #F5F3FF; border-color: var(--phase-im); }
+    .phase-section-header.phase-nach { background: #FFFBEB; border-color: var(--phase-nach); }
+
+    .phase-section-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .phase-section-header.phase-vor  .phase-section-title { color: #065F46; }
+    .phase-section-header.phase-im   .phase-section-title { color: #3730A3; }
+    .phase-section-header.phase-nach .phase-section-title { color: #78350F; }
+
+    .phase-section-count {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--c-text-4);
+    }
+
+    /* ── Karten-Grid ── */
+    .phase-section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .prozess-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border-1);
+      border-radius: var(--r-lg);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s, opacity 0.15s;
+      position: relative;
+    }
+    .prozess-card:hover {
+      border-color: var(--c-border-3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .prozess-card.dimmed {
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .prozess-card.open {
+      border-color: var(--c-border-3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .phase-vor  { border-left: 3px solid var(--phase-vor); }
+    .phase-im   { border-left: 3px solid var(--phase-im); }
+    .phase-nach { border-left: 3px solid var(--phase-nach); }
+
+    .card-meta {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 6px;
+    }
+
+    .card-nr {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--c-text-4);
+    }
+
+    .card-titel {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-text-1);
+      line-height: 1.35;
+      margin-bottom: 5px;
+    }
+
+    .card-akteur {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .akteur-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      background: #EFF6FF;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+    }
+
+    .card-objekt {
+      font-size: 12px;
+      color: var(--c-text-3);
+      margin-bottom: 10px;
+    }
+    .card-op {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #F3F4F6;
+      color: var(--c-text-3);
+      border: 1px solid var(--c-border-2);
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    .card-op[title] { cursor: help; }
+
+    .op-legende {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      margin: -6px 0 14px;
+      font-size: 12px;
+      color: var(--c-text-3);
+    }
+    .op-legende .card-op { margin-left: 0; margin-right: 4px; }
+
+    .card-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .dr-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    /* ── Detail-Box ── */
+    .detail-box {
+      margin-top: 12px;
+      border-top: 1px solid var(--c-border-1);
+      padding-top: 12px;
+      font-size: 13px;
+      color: var(--c-text-2);
+      line-height: 1.65;
+    }
+
+    .detail-section {
+      margin-top: 12px;
+    }
+    .detail-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--c-text-4);
+      margin-bottom: 6px;
+    }
+
+    .domaene-chip {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: var(--r-sm);
+      font-size: 12px;
+      font-weight: 500;
+      background: #FEF9C3;
+      color: #713F12;
+      border: 1px solid #FDE68A;
+    }
+
+    .gesetz-chip {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: var(--r-sm);
+      font-size: 11px;
+      font-weight: 500;
+      background: #F0FDF4;
+      color: #14532D;
+      border: 1px solid #BBF7D0;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+
+    .struktur-badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .struktur-strukturiert   { background: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
+    .struktur-teilstrukturiert { background: #FEF3C7; color: #78350F; border: 1px solid #FCD34D; }
+    .struktur-unstrukturiert { background: #FEE2E2; color: #7F1D1D; border: 1px solid #FCA5A5; }
+
+    .standard-chip {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: var(--r-sm);
+      font-size: 11px;
+      font-weight: 500;
+      background: #EFF6FF;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+
+    /* ── Suche ── */
+    .search-input {
+      flex: 1;
+      max-width: 340px;
+      padding: 5px 10px;
+      border: 1px solid var(--c-border-2);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--c-text-1);
+      background: var(--c-surface);
+      transition: border-color 0.12s;
+    }
+    .search-input:focus { outline: none; border-color: var(--c-border-3); }
+    .search-input::placeholder { color: var(--c-text-4); }
+
+    mark {
+      background: #FEF08A;
+      color: inherit;
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    /* ── Export-Bereich ── */
+    .export-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .export-bar .counter {
+      margin-bottom: 0;
+      flex: 1;
+    }
+    .btn-export {
+      padding: 5px 12px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-border-2);
+      background: var(--c-surface);
+      color: var(--c-text-2);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .btn-export:hover { border-color: var(--c-border-3); color: var(--c-text-1); }
+
+    /* ── Struktur-Toggles ── */
+    .str-toggle {
+      padding: 4px 10px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-border-2);
+      background: var(--c-surface);
+      color: var(--c-text-3);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s;
+      opacity: 0.45;
+    }
+    .str-toggle.active                          { opacity: 1; }
+    .str-toggle.active[data-str="strukturiert"]   { background: #D1FAE5; border-color: #6EE7B7; color: #065F46; }
+    .str-toggle.active[data-str="teilstrukturiert"] { background: #FEF3C7; border-color: #FCD34D; color: #78350F; }
+    .str-toggle.active[data-str="unstrukturiert"] { background: #FEE2E2; border-color: #FCA5A5; color: #7F1D1D; }
+    .str-toggle:hover:not(.active) { border-color: var(--c-border-3); color: var(--c-text-2); opacity: 0.8; }
+
+    /* ── Standard-Toggles ── */
+    .std-toggle {
+      padding: 4px 10px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-border-2);
+      background: var(--c-surface);
+      color: var(--c-text-3);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s;
+      opacity: 0.45;
+    }
+    .std-toggle.active {
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+      color: #1E40AF;
+      opacity: 1;
+    }
+    .std-toggle:hover:not(.active) { border-color: var(--c-border-3); color: var(--c-text-2); opacity: 0.8; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .modal-panel {
+      background: var(--c-surface);
+      border-radius: var(--r-lg);
+      padding: 22px 24px 24px;
+      max-width: 580px;
+      width: 92%;
+      max-height: 82vh;
+      overflow-y: auto;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+      position: relative;
+      border-left: 4px solid transparent;
+    }
+    .modal-panel.phase-vor  { border-left-color: var(--phase-vor); }
+    .modal-panel.phase-im   { border-left-color: var(--phase-im); }
+    .modal-panel.phase-nach { border-left-color: var(--phase-nach); }
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--c-text-3);
+      padding: 2px 6px;
+      border-radius: var(--r-sm);
+      font-family: inherit;
+    }
+    .modal-close:hover { color: var(--c-text-1); background: var(--c-bg); }
+    .modal-nr   { font-size: 11px; font-weight: 600; color: var(--c-text-4); margin-bottom: 4px; }
+    .modal-titel { font-size: 17px; font-weight: 700; color: var(--c-text-1); margin-bottom: 8px; line-height: 1.3; }
+    .modal-meta  { font-size: 12px; color: var(--c-text-3); margin-bottom: 4px; }
+    .modal-badges { display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0 14px; }
+    .modal-divider { border: none; border-top: 1px solid var(--c-border-1); margin: 14px 0; }
+
+    /* ── Print-Filterzeile ── */
+    .print-filter-summary {
+      display: none;
+    }
+    @media print {
+      .print-filter-summary {
+        display: block;
+        font-size: 11px;
+        color: #555;
+        padding: 6px 0 10px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 12px;
+      }
+    }
+
+    /* ── View-Tabs ── */
+    .view-tabs {
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border-1);
+      padding: 0 24px;
+      display: flex;
+    }
+    .view-tab {
+      padding: 10px 18px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--c-text-3);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s;
+      margin-bottom: -1px;
+      font-family: inherit;
+    }
+    .view-tab:hover:not(.active) { color: var(--c-text-2); }
+    .view-tab.active {
+      color: var(--c-text-1);
+      border-bottom-color: var(--c-text-1);
+      font-weight: 600;
+    }
+
+    /* ── Matrix ── */
+    .matrix-wrap {
+      padding: 20px 24px;
+      overflow-x: auto;
+    }
+    .matrix-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 12px;
+    }
+    .matrix-table th {
+      padding: 8px 14px;
+      text-align: left;
+      border-bottom: 2px solid var(--c-border-1);
+      white-space: nowrap;
+    }
+    .matrix-table th:first-child {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-text-4);
+      min-width: 140px;
+    }
+    .matrix-table td {
+      padding: 8px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--c-border-1);
+      min-width: 180px;
+    }
+    .matrix-domaene {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--c-text-1);
+      white-space: nowrap;
+    }
+    .matrix-step-chip {
+      display: block;
+      width: 100%;
+      padding: 3px 8px;
+      border-radius: var(--r-sm);
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--c-bg);
+      border: 1px solid var(--c-border-2);
+      color: var(--c-text-2);
+      cursor: pointer;
+      margin: 2px 0;
+      transition: all 0.1s;
+      text-align: left;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+    .matrix-step-chip:hover {
+      border-color: var(--c-border-3);
+      color: var(--c-text-1);
+      background: var(--c-surface);
+    }
+    .matrix-legende {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .matrix-legende-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--c-text-4);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .matrix-step-chip.phase-vor  { background: #D1FAE5; border-color: #6EE7B7; color: #065F46; }
+    .matrix-step-chip.phase-im   { background: #EDE9FE; border-color: #A78BFA; color: #3730A3; }
+    .matrix-step-chip.phase-nach { background: #FEF3C7; border-color: #FCD34D; color: #78350F; }
+    .matrix-step-chip.highlighted {
+      outline: 2px solid currentColor;
+      font-weight: 700;
+      opacity: 1 !important;
+      filter: brightness(0.92);
+    }
+    .matrix-step-chip.dimmed-by-hover { opacity: 0.2; }
+
+    /* ── Print ── */
+    @media print {
+      body { background: white; min-height: 0; }
+      .page-header { position: static; box-shadow: none; border-bottom: 1px solid #ccc; padding: 8px 16px; }
+      .toolbar, .export-bar, .scope-details { display: none !important; }
+      .main { padding: 12px 0 0; }
+      .phase-section { break-inside: auto; }
+      .phase-section-header { box-shadow: none; break-after: avoid; }
+      .prozess-card { break-inside: avoid; cursor: default; box-shadow: none; border: 1px solid #ddd; }
+      .prozess-card.dimmed { display: none; }
+      .detail-box { display: block !important; border-top: 1px solid #eee; padding-top: 10px; margin-top: 8px; }
+      mark { background: none; font-weight: 600; }
+    }
+
+    [hidden] { display: none !important; }
+    .header-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 14px; }
+    .source-link, .scope-details-body a, .detail-section a { color: #1e40af; text-underline-offset: 2px; }
+    .header-meta a { color: inherit; }
+    .scope-details-body h2 { font-size: 13px; margin: 12px 0 4px; }
+    .scope-details-body h2:first-child { margin-top: 0; }
+    .filter-label, .phase-section-count, .card-nr, .matrix-legende-label, .detail-section-label, .modal-nr, .matrix-table th:first-child { color: #606b7c; }
+    .filter-row .search-input { min-width: 0; }
+    .main { min-width: 0; }
+    .prozess-card { padding: 0; min-width: 0; overflow-wrap: anywhere; }
+    .card-trigger { appearance: none; width: 100%; padding: 14px 16px; color: inherit; background: none; border: 0; border-radius: inherit; font: inherit; cursor: pointer; text-align: left; }
+    .card-meta, .card-titel, .card-objekt { display: block; }
+    .card-meta { text-align: right; }
+    .detail-box { margin: 0 16px 14px; cursor: auto; }
+    .detail-section p + p { margin-top: 5px; }
+    .detail-section ul { margin-left: 17px; }
+    .law-toggle:not(.active), .str-toggle:not(.active), .std-toggle:not(.active) { opacity: .72; border-style: dashed; }
+    .prozess-card.dimmed { opacity: .24; }
+    .export-bar { flex-wrap: wrap; }
+    .export-bar .counter { min-width: 185px; }
+    .empty-result { color: var(--c-text-2); margin-bottom: 18px; font-size: 13px; }
+    .empty-result button { margin-left: 10px; }
+    .matrix-wrap { padding: 0; }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table tbody th { vertical-align: top; border-bottom: 1px solid var(--c-border-1); white-space: normal; }
+    .matrix-legende .matrix-step-chip { width: auto; cursor: default; }
+    .modal-panel { position: fixed; inset: 0; margin: auto; border: 0; border-left: 4px solid transparent; }
+    .modal-panel::backdrop { background: rgba(0,0,0,.35); }
+    .modal-titel { padding-right: 18px; }
+    .modal-panel .detail-box { margin: 12px 0 0; }
+    :focus-visible, .search-input:focus-visible { outline: 2px solid #253ea4; outline-offset: 2px; }
+    #print-content { display: none; }
+    .mobile-filter-action { display: none; }
+    .license { font-size: 11px; margin-top: 12px; color: #596473; }
+    @media (max-width: 760px), (max-height: 600px) {
+      .toolbar { position: static; }
+    }
+    @media (max-width: 680px) {
+      .page-header { padding: 15px 16px 12px; }
+      .view-tabs { padding: 0 16px; }
+      .toolbar { padding: 12px 16px; }
+      .filter-label { min-width: 0; width: 100%; }
+      .filter-row { gap: 6px; }
+      .main { padding: 16px; }
+      .phase-section-grid { grid-template-columns: minmax(0,1fr); }
+      .phase-section-header { padding: 10px 12px; gap: 8px; }
+      .phase-section-count { white-space: nowrap; }
+      .export-bar .counter { flex-basis: 100%; }
+      .view-tab, .phase-tab, .law-toggle, .str-toggle, .std-toggle, .dr-toggle, .btn-export { min-height: 30px; }
+      .mobile-filter-action { display: flex; }
+      .mobile-filter-action button { font-size: 12px; font-weight: 600; }
+      #extra-filters:not(.mobile-open) { display: none; }
+      .matrix-table td { min-width: 155px; }
+      .matrix-table th:first-child { min-width: 115px; }
+    }
+    #extra-filters { display: grid; gap: 10px; }
+    @media (max-width: 680px) { #extra-filters:not(.mobile-open) { display: none; } }
+    @media print {
+      @page { margin: 12mm; }
+      body { background: white; }
+      .page-header { padding: 0 0 8px; }
+      .view-tabs, .toolbar, main, dialog, .header-meta a, .scope-details, .scope-note { display: none !important; }
+      #print-content { display: block; font-size: 10px; }
+      #print-content h2 { margin: 8px 0 3px; font-size: 13px; }
+      #print-content h3 { margin-bottom: 4px; font-size: 12px; }
+      #print-content p { margin: 3px 0; line-height: 1.4; }
+      .print-step { padding: 7px 0; border-bottom: 1px solid #ddd; break-inside: avoid; }
+      .print-step .detail-box { padding: 4px 0 0; margin: 4px 0 0; font-size: 10px; }
+      .print-step .detail-section { margin-top: 4px; }
+      .print-step .detail-section-label { margin-bottom: 2px; }
+      .print-step .detail-section a, .print-table a { overflow-wrap: anywhere; }
+      .print-step .detail-section a::after, .print-table a::after { content: ' (' attr(href) ')'; font-size: 8px; }
+      .print-table { width: 100%; border-collapse: collapse; font-size: 8px; table-layout: fixed; }
+      .print-table td, .print-table th { text-align: left; vertical-align: top; padding: 4px; border-bottom: 1px solid #ddd; overflow-wrap: anywhere; }
+      .print-table tr { break-inside: avoid; }
+      .print-table th:first-child { width: 5%; }
+      .print-table.matrix-print th:first-child { width: 17%; }
+      .print-table td p { margin: 0 0 2px !important; }
+      .print-metadata { margin: 6px 0 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>Ambulanter Patientenpfad | Interaktive Prozesskarte</h1>
+    <p class="header-meta"><span>Akteur × Prozess → Datenobjekt</span><span id="model-size"></span><span>3 Phasen</span><span>4 Datenräume</span><span>Arbeitsfassung V1</span><a href="https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html" target="_blank" rel="noopener">Vorlage des AK Patientenportale ↗</a></p>
+    <p class="scope-note">Vom ersten Kontakt bis zur Nachsorge. Welche Informationen entstehen in Hausarztpraxen und Facharztpraxen, wer arbeitet damit und wohin werden sie weitergegeben?</p>
+    <details class="scope-details"><summary>Einordnung und Quellen der Prozesskarte</summary>
+      <div class="scope-details-body">
+        <h2>Herkunft des Modells</h2>
+        <p>Der Arbeitskreis Patientenportale der INA hat für den Weg vor, während und nach einem Krankenhausaufenthalt 25 aus über 80 möglichen Schritten ausgewählt. Drei Unterarbeitsgruppen untersuchten zwölf davon vertieft. Die Seiten 6 und 7 erläutern das Prozessmodell. Kapitel 3.3 auf Seite 24 beschreibt die Auswahl der Schritte. <a href="https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=8" target="_blank" rel="noopener">Positionspapier, Seite 7</a>. <a href="https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25" target="_blank" rel="noopener">Positionspapier, Seite 24</a>. <a href="https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html" target="_blank" rel="noopener">Interaktive Originalkarte</a>.</p>
+        <h2>Ambulante Arbeitsfassung</h2>
+        <p>Diese erste Version betrachtet die vertragsärztliche Versorgung in Deutschland. Das Projekt Versorgungsprozesse hat die ambulanten Schritte ausgewählt und anhand der jeweils verlinkten Fachquellen beschrieben. Für die Zahl ambulanter Schritte gibt es in diesem Modell keine feste Vorgabe. Je nach Anliegen überspringen Patientinnen und Patienten einzelne Schritte oder durchlaufen sie wiederholt. Zur Behandlung in der Praxis zählen auch Telefonate, Videosprechstunden und Hausbesuche.</p>
+        <h2>Datenräume und Rechtsgrundlagen</h2>
+        <p>Die Datenräume zeigen, wo Informationen je nach Verlauf verfügbar sein können. Versorgung umfasst das Praxisverwaltungssystem und weitere Systeme der Behandlung. Ein Portal ist ein optionaler Zugang. In der elektronischen Patientenakte (ePA) gelten die jeweiligen Zugriffsrechte. Kasse / KV fasst zwei getrennte Empfänger zusammen, die Krankenkasse für Versicherungsangelegenheiten und die Kassenärztliche Vereinigung für die Abrechnung. Welche Empfänger und Rechte gelten, hängt vom Vorgang ab. Die Struktur beschreibt das typische Hauptdokument eines Schritts. Die aufgeführten Formate und Verfahren sind Beispiele. Die Rechtsgrundlagen geben eine fachliche Orientierung.</p>
+        <div class="license">Viewer nach dem <a href="https://github.com/oeme-github/INA-ePA-und-Patientenportale/tree/c2d411a2d262611ec3d6323689960f9d5f7e6235" target="_blank" rel="noopener">Original von oeme</a>, © 2026 oeme. Für Versorgungsprozesse überarbeitet am 19.11.2026. <a href="LICENSE" target="_blank" rel="noopener">Lizenz EUPL 1.2 oder später</a>.</div>
+      </div>
+    </details>
+  </header>
+  <nav class="view-tabs" aria-label="Ansicht">
+    <button class="view-tab active" id="tab-karten" aria-pressed="true" aria-controls="karten">Prozessschritte</button>
+    <button class="view-tab" id="tab-matrix" aria-pressed="false" aria-controls="matrix-view">Matrix</button>
+  </nav>
+  <section class="toolbar" aria-label="Prozessschritte filtern">
+    <div class="filter-row" id="phase-row" role="group" aria-label="Phase"><span class="filter-label">Phase</span></div>
+    <div class="mobile-filter-action"><button id="mobile-filter-toggle" class="btn-export" aria-expanded="false" aria-controls="extra-filters">Weitere Filter anzeigen</button></div>
+    <div id="extra-filters">
+      <div class="filter-row" id="dr-row" role="group" aria-label="Datenraum"><span class="filter-label">Datenraum</span></div>
+      <div class="filter-row" id="str-row" role="group" aria-label="Struktur"><span class="filter-label">Struktur</span></div>
+      <div class="filter-row" id="law-row" role="group" aria-label="Rechtsgrundlage"><span class="filter-label">Rechtsgrundlage</span></div>
+      <div class="filter-row" id="std-row" role="group" aria-label="Standard und Verfahren"><span class="filter-label">Standard</span></div>
+    </div>
+    <div class="filter-row"><label class="filter-label" for="search-input">Suche</label><input class="search-input" type="search" id="search-input" placeholder="Titel, Akteur, Datenobjekt, Beschreibung …"></div>
+  </section>
+  <main class="main">
+    <div class="export-bar" id="exports">
+      <p class="counter" aria-live="polite" id="counter"></p>
+      <button class="btn-export" id="btn-expand" aria-pressed="false">⊞ Alle aufklappen</button>
+      <button class="btn-export" id="btn-overview" title="Tabellarische Übersicht drucken">↓ Übersicht</button>
+      <button class="btn-export" id="btn-pdf" title="Karten drucken oder als PDF sichern">↓ PDF</button>
+      <button class="btn-export" id="btn-csv" title="Ausgewählte Schritte als CSV herunterladen">↓ CSV</button>
+      <button class="btn-export" id="btn-json" title="Ausgewählte Schritte als JSON herunterladen">↓ JSON</button>
+    </div>
+    <div class="op-legende" id="op-legende"></div>
+    <div id="empty-result" class="empty-result" hidden>Keine passenden Prozessschritte. <button class="btn-export" id="reset">Filter zurücksetzen</button></div>
+    <div id="karten"></div><div id="matrix-view" hidden></div>
+    <noscript>Bitte JavaScript aktivieren, um die interaktive Karte zu öffnen.</noscript>
+  </main>
+  <dialog class="modal-panel" id="step-modal" aria-labelledby="dialog-title">
+    <button class="modal-close" id="close-dialog" aria-label="Detailansicht schließen" autofocus>×</button>
+    <div id="modal-content"></div>
+  </dialog>
+  <section id="print-content"></section>
+  <script src="karten.js"></script>
+  <script>
+    'use strict';
+
+    const phases = {vor: 'Vor dem Praxisbesuch', im: 'In der Praxis', nach: 'Nach dem Praxisbesuch'};
+    const rooms = {portal: 'Portal', versorgung: 'Versorgung', epa: 'ePA', kostentraeger: 'Kasse / KV'};
+    const operations = {E: 'Erzeugt', V: 'Verändert', L: 'Gelesen oder geprüft', G: 'Gelöscht'};
+    const structures = ['strukturiert', 'teilstrukturiert', 'unstrukturiert'];
+    const byId = id => document.getElementById(id);
+    const sortedUnique = values => [...new Set(values)].sort((a, b) => a.localeCompare(b, 'de'));
+    const stepNumber = step => '#' + String(step.nr).padStart(2, '0');
+    const operationText = step => step.op.split(/,\s*/).map(code => operations[code] || code).join(', ');
+    const escapeText = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
+
+    function standardGroup(label) {
+      if (/FHIR/i.test(label)) return 'FHIR';
+      if (/\b(?:ICD|OPS|LOINC|SNOMED|ATC)\b/i.test(label)) return 'Terminologien';
+      if (/\b(?:KBV|Muster|Vordruck|eFormular|Formular)\b/i.test(label)) return 'Formulare';
+      if (/^(?:KIM|TI|VSDM|eEB|eAU|E-Rezept)/i.test(label)) return 'TI-Verfahren';
+      if (/^(?:LDT|BDT|GDT|xDT)/i.test(label)) return 'xDT';
+      return label;
+    }
+
+    const available = {
+      dr: Object.keys(rooms),
+      str: structures,
+      law: sortedUnique(PROZESSE.flatMap(d => d.gesetze)),
+      std: sortedUnique(PROZESSE.flatMap(d => d.standards.map(standardGroup)))
+    };
+    const selected = Object.fromEntries(Object.entries(available).map(([group, options]) => [group, new Set(options)]));
+    let phase = 'alle';
+    let query = '';
+    let currentView = 'karten';
+    let expanded = new Set();
+    let printFormat = '';
+
+    function mark(value, search = query) {
+      const original = String(value ?? '');
+      if (!search) return escapeText(original);
+      const lower = original.toLocaleLowerCase('de');
+      const term = search.toLocaleLowerCase('de');
+      let result = '';
+      let pos = 0;
+      let start = lower.indexOf(term);
+      while (start !== -1) {
+        result += escapeText(original.slice(pos, start)) + '<mark>' + escapeText(original.slice(start, start + term.length)) + '</mark>';
+        pos = start + term.length;
+        start = lower.indexOf(term, pos);
+      }
+      return result + escapeText(original.slice(pos));
+    }
+
+    function getSources(step) {
+      return (step.quellen || []).map(key => QUELLEN[key]).filter(source => source && /^https?:\/\//.test(source.url));
+    }
+
+    function sourceList(step) {
+      const sources = getSources(step);
+      if (!sources.length) return '';
+      return '<ul>' + sources.map(source => '<li><a href="' + escapeText(source.url) + '" target="_blank" rel="noopener">' + escapeText(source.titel) + '</a></li>').join('') + '</ul>';
+    }
+
+    function matchesSearch(step) {
+      if (!query) return true;
+      const fields = [step.titel, ...step.akteur, ...step.objekt, step.detail, step.domäne, step.struktur, ...step.gesetze, ...step.standards, ...step.dr.map(key => rooms[key]), ...(step.suchbegriffe || [])];
+      const searchable = fields.join(' ').toLocaleLowerCase('de');
+      return query.toLocaleLowerCase('de').split(/\s+/).every(word => searchable.includes(word));
+    }
+
+    function matchesGroup(items, group) {
+      if (!items.length) return selected[group].size === available[group].length;
+      return items.some(item => selected[group].has(item));
+    }
+
+    function matchesDimensions(step) {
+      return matchesGroup(step.dr, 'dr') && matchesGroup(step.struktur ? [step.struktur] : [], 'str')
+        && matchesGroup(step.gesetze, 'law') && matchesGroup(step.standards.map(standardGroup), 'std');
+    }
+
+    function visibleSteps() {
+      return PROZESSE.filter(step => (phase === 'alle' || step.phase === phase) && matchesSearch(step) && matchesDimensions(step));
+    }
+
+    function roomBadges(step) {
+      return step.dr.map(key => '<span class="dr-badge dr-' + escapeText(key) + '">' + escapeText(rooms[key]) + '</span>').join('');
+    }
+
+    function detailSection(title, html) {
+      return html ? '<div class="detail-section"><div class="detail-section-label">' + title + '</div>' + html + '</div>' : '';
+    }
+
+    function chips(items, css, search) {
+      return items.map(item => '<span class="' + css + '">' + mark(item, search) + '</span>').join(' ');
+    }
+
+    function details(step, search = query) {
+      const text = field => escapeText(step[field]).split('\n').map(line => '<p>' + line + '</p>').join('');
+      return '<div class="detail-box"><p>' + mark(step.detail, search) + '</p>'
+        + detailSection('Informationsdomäne', chips([step.domäne], 'domaene-chip', search))
+        + detailSection('Rechtsgrundlagen', chips(step.gesetze, 'gesetz-chip', search))
+        + detailSection('Standards und Verfahren', chips(step.standards, 'standard-chip', search))
+        + (step.ist ? detailSection('Stand der Versorgung', text('ist')) : '')
+        + (step.luecke ? detailSection('Offene Fragen', text('luecke')) : '')
+        + (step.forderungen ? detailSection('Anforderungen', text('forderungen')) : '')
+        + detailSection('Fachquellen', sourceList(step)) + '</div>';
+    }
+
+    function objectLine(step, search) {
+      return mark(step.objekt.join(', '), search) + ' <span class="card-op" title="' + escapeText(operationText(step)) + '">' + escapeText(step.op) + '</span>'
+        + (step.struktur ? '<span class="struktur-badge struktur-' + escapeText(step.struktur) + '">' + escapeText(step.struktur) + '</span>' : '');
+    }
+
+    function card(step) {
+      const enabled = matchesDimensions(step);
+      const open = enabled && expanded.has(step.nr);
+      return '<article data-nr="' + step.nr + '" class="prozess-card phase-' + step.phase + (enabled ? '' : ' dimmed') + (open ? ' open' : '') + '">'
+        + '<button class="card-trigger" aria-label="' + escapeText(stepNumber(step) + ' ' + step.titel) + '" aria-expanded="' + open + '" ' + (enabled ? '' : 'disabled') + '>'
+        + '<span class="card-meta"><span class="card-nr">' + stepNumber(step) + '</span></span><span class="card-titel">' + mark(step.titel) + '</span>'
+        + '<span class="card-akteur">' + chips(step.akteur, 'akteur-tag', query) + '</span><span class="card-objekt">' + objectLine(step, query) + '</span>'
+        + '<span class="card-badges">' + roomBadges(step) + '</span></button>' + (open ? details(step) : '') + '</article>';
+    }
+
+    function updateCards(focusStep) {
+      const results = visibleSteps();
+      const complete = results.length > 0 && results.every(step => expanded.has(step.nr));
+      byId('counter').innerHTML = '<strong>' + results.length + ' von ' + PROZESSE.length + '</strong> Prozessschritten sichtbar';
+      byId('btn-expand').textContent = complete ? '⊟ Alle zuklappen' : '⊞ Alle aufklappen';
+      byId('btn-expand').setAttribute('aria-pressed', String(complete));
+      for (const control of ['btn-expand', 'btn-overview', 'btn-pdf', 'btn-csv', 'btn-json']) byId(control).disabled = !results.length;
+      byId('empty-result').hidden = currentView !== 'karten' || results.length > 0;
+      byId('karten').innerHTML = Object.entries(phases).filter(([key]) => phase === 'alle' || phase === key).map(([key, label]) => {
+        const steps = PROZESSE.filter(step => step.phase === key && matchesSearch(step));
+        if (!steps.length) return '';
+        const count = results.filter(step => step.phase === key).length;
+        const countLabel = count === steps.length ? count + (count === 1 ? ' Schritt' : ' Schritte') : count + ' von ' + steps.length + ' sichtbar';
+        return '<section class="phase-section"><div class="phase-section-header phase-' + key + '"><h2 class="phase-section-title">' + label + '</h2><span class="phase-section-count">' + countLabel + '</span></div><div class="phase-section-grid">' + steps.map(card).join('') + '</div></section>';
+      }).join('');
+      if (focusStep != null) byId('karten').querySelector('[data-nr="' + focusStep + '"] .card-trigger')?.focus({preventScroll: true});
+    }
+
+    function addFilter(row, label, className, key, active, action, group) {
+      const button = document.createElement('button');
+      button.className = className + (active ? ' active' : '');
+      button.setAttribute('aria-pressed', String(active));
+      button.dataset[group] = key;
+      if (group === 'phase' && key !== 'alle') {
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        dot.style.background = 'var(--phase-' + key + ')';
+        button.append(dot);
+      }
+      button.append(label);
+      button.addEventListener('click', () => action(button));
+      byId(row).append(button);
+    }
+
+    function setPressed(button, active) {
+      button.setAttribute('aria-pressed', String(active));
+      button.classList.toggle('active', active);
+    }
+
+    Object.entries({alle: 'Alle Phasen', ...phases}).forEach(([key, label]) => {
+      addFilter('phase-row', label, 'phase-tab', key, key === 'alle', () => {
+        phase = key;
+        byId('phase-row').querySelectorAll('button').forEach(button => setPressed(button, button.dataset.phase === phase));
+        updateCards();
+      }, 'phase');
+    });
+
+    Object.entries(available).forEach(([group, options]) => {
+      options.forEach(key => {
+        const className = group === 'dr' ? 'dr-toggle dr-' + key : group + '-toggle';
+        addFilter(group + '-row', group === 'dr' ? rooms[key] : key, className, key, true, button => {
+          if (selected[group].has(key)) selected[group].delete(key);
+          else selected[group].add(key);
+          setPressed(button, selected[group].has(key));
+          updateCards();
+        }, group);
+      });
+    });
+
+    byId('reset').addEventListener('click', () => {
+      phase = 'alle';
+      query = '';
+      byId('search-input').value = '';
+      Object.entries(available).forEach(([group, options]) => {
+        selected[group] = new Set(options);
+        byId(group + '-row').querySelectorAll('button').forEach(button => setPressed(button, true));
+      });
+      byId('phase-row').querySelectorAll('button').forEach(button => setPressed(button, button.dataset.phase === phase));
+      updateCards();
+      byId('search-input').focus();
+    });
+
+    byId('mobile-filter-toggle').addEventListener('click', () => {
+      const open = byId('extra-filters').classList.toggle('mobile-open');
+      byId('mobile-filter-toggle').setAttribute('aria-expanded', String(open));
+      byId('mobile-filter-toggle').textContent = open ? 'Weitere Filter ausblenden' : 'Weitere Filter anzeigen';
+    });
+
+    byId('search-input').addEventListener('input', event => {
+      query = event.target.value.trim();
+      updateCards();
+    });
+
+    byId('karten').addEventListener('click', event => {
+      const trigger = event.target.closest('.card-trigger');
+      if (!trigger || trigger.disabled) return;
+      const nr = Number(trigger.closest('article').dataset.nr);
+      // Preserve the original single-card navigation; individually closing a card
+      // in the expanded collection should leave its neighbours open.
+      if (expanded.has(nr)) expanded.delete(nr);
+      else expanded = new Set([nr]);
+      updateCards(nr);
+    });
+
+    byId('btn-expand').addEventListener('click', () => {
+      const visible = visibleSteps();
+      expanded = visible.every(step => expanded.has(step.nr)) ? new Set() : new Set(visible.map(step => step.nr));
+      updateCards();
+    });
+
+    const domains = sortedUnique(PROZESSE.map(step => step.domäne));
+    function matrixTable(printing = false) {
+      const heading = Object.entries(rooms).map(([key, label]) => '<th scope="col"><span class="dr-badge dr-' + key + '">' + label + '</span></th>').join('');
+      const rows = domains.map(domain => {
+        const steps = PROZESSE.filter(step => step.domäne === domain);
+        const cells = Object.keys(rooms).map(key => {
+          const items = steps.filter(step => step.dr.includes(key)).map(step => {
+            const name = escapeText(stepNumber(step) + ' ' + step.titel);
+            return printing ? '<p>' + name + '</p>' : '<button class="matrix-step-chip phase-' + step.phase + '" data-nr="' + step.nr + '" aria-haspopup="dialog">' + name + '</button>';
+          });
+          return '<td>' + items.join('') + '</td>';
+        }).join('');
+        return '<tr><th scope="row" class="matrix-domaene">' + escapeText(domain) + '</th>' + cells + '</tr>';
+      }).join('');
+      return '<table class="' + (printing ? 'print-table matrix-print' : 'matrix-table') + '" aria-label="Informationsdomänen und Datenräume"><thead><tr><th scope="col">Informationsdomäne</th>' + heading + '</tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+
+    byId('matrix-view').innerHTML = '<div class="matrix-legende"><span class="matrix-legende-label">Phasen</span>'
+      + Object.entries(phases).map(([key, label]) => '<span class="matrix-step-chip phase-' + key + '">' + label + '</span>').join('')
+      + '</div><div class="matrix-wrap" tabindex="0" role="region" aria-label="Matrix, bei Bedarf seitlich scrollen">' + matrixTable() + '</div>';
+
+    function changeView(matrix) {
+      currentView = matrix ? 'matrix' : 'karten';
+      setPressed(byId('tab-karten'), !matrix);
+      setPressed(byId('tab-matrix'), matrix);
+      document.querySelector('.toolbar').hidden = matrix;
+      for (const id of ['exports', 'op-legende', 'karten']) byId(id).hidden = matrix;
+      byId('matrix-view').hidden = !matrix;
+      updateCards();
+    }
+    byId('tab-karten').addEventListener('click', () => changeView(false));
+    byId('tab-matrix').addEventListener('click', () => changeView(true));
+
+    function highlightMatrix(chip) {
+      byId('matrix-view').querySelectorAll('button[data-nr]').forEach(button => {
+        const same = chip && chip.dataset.nr === button.dataset.nr;
+        button.classList.toggle('highlighted', Boolean(same));
+        button.classList.toggle('dimmed-by-hover', Boolean(chip && !same));
+      });
+    }
+    for (const type of ['mouseover', 'focusin']) byId('matrix-view').addEventListener(type, event => highlightMatrix(event.target.closest('button[data-nr]')));
+    for (const type of ['mouseleave', 'focusout']) byId('matrix-view').addEventListener(type, () => highlightMatrix(null));
+
+    byId('matrix-view').addEventListener('click', event => {
+      const button = event.target.closest('button[data-nr]');
+      if (!button) return;
+      const step = PROZESSE.find(item => item.nr === Number(button.dataset.nr));
+      const dialog = byId('step-modal');
+      dialog.className = 'modal-panel phase-' + step.phase;
+      byId('modal-content').innerHTML = '<div class="modal-nr">' + stepNumber(step) + ' / ' + phases[step.phase] + '</div>'
+        + '<h2 class="modal-titel" id="dialog-title">' + escapeText(step.titel) + '</h2><div class="modal-meta">' + escapeText(step.akteur.join(', ')) + '</div>'
+        + '<div class="modal-meta">' + objectLine(step, '') + '</div><div class="modal-badges">' + roomBadges(step) + '</div>' + details(step, '');
+      dialog.showModal();
+    });
+    byId('step-modal').addEventListener('click', event => {
+      if (event.target !== event.currentTarget) return;
+      const rect = event.currentTarget.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close();
+    });
+    byId('close-dialog').addEventListener('click', () => byId('step-modal').close());
+
+    function downloadFile(name, content, type) {
+      const url = URL.createObjectURL(new Blob([content], {type}));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = name;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    }
+
+    function exportJson() {
+      const visible = visibleSteps();
+      const keys = new Set(visible.flatMap(step => step.quellen));
+      const sources = Object.fromEntries([...keys].map(key => [key, QUELLEN[key]]));
+      const payload = {titel: 'Ambulanter Patientenpfad', version: 'V1', stand: '2026-11-19', phasen: phases, datenraeume: rooms, operationen: operations, prozesse: visible, quellen: sources};
+      downloadFile('Ambulanter-Patientenpfad-V1.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+    }
+
+    function exportCsv() {
+      const heading = ['Nr.', 'Phase', 'Titel', 'Akteure', 'Datenobjekte', 'Operation', 'Datenräume', 'Struktur', 'Informationsdomäne', 'Beschreibung', 'Rechtsgrundlagen', 'Standards und Verfahren', 'Quellen'];
+      const rows = visibleSteps().map(step => [stepNumber(step), phases[step.phase], step.titel, step.akteur, step.objekt, operationText(step), step.dr.map(key => rooms[key]), step.struktur, step.domäne, step.detail, step.gesetze, step.standards, getSources(step).map(source => source.titel + ' (' + source.url + ')')]);
+      const csvCell = value => '"' + String(Array.isArray(value) ? value.join(' | ') : value ?? '').replaceAll('"', '""') + '"';
+      const csv = [heading, ...rows].map(row => row.map(csvCell).join(';')).join('\r\n');
+      downloadFile('Ambulanter-Patientenpfad-V1.csv', '\uFEFF' + csv, 'text/csv;charset=utf-8');
+    }
+
+    function filterDescription() {
+      const parts = [phase === 'alle' ? 'Alle Phasen' : phases[phase]];
+      const labels = {dr: 'Datenraum', str: 'Struktur', law: 'Rechtsgrundlage', std: 'Standard'};
+      for (const [group, selectedItems] of Object.entries(selected)) {
+        if (selectedItems.size !== available[group].length) parts.push(labels[group] + ' (' + [...selectedItems].map(key => group === 'dr' ? rooms[key] : key).join(', ') + ')');
+      }
+      if (query) parts.push('Suche „' + query + '“');
+      return parts.join(', ');
+    }
+
+    function addPrintContent() {
+      const target = byId('print-content');
+      if (!printFormat && currentView === 'matrix') {
+        target.innerHTML = '<h2>Matrix</h2>' + matrixTable(true);
+        return;
+      }
+      const visible = visibleSteps();
+      const table = printFormat === 'uebersicht';
+      const date = new Date().toLocaleDateString('de-DE');
+      let html = '<h2>' + (table ? 'Übersicht der Prozessschritte' : 'Prozessschritte im Detail') + '</h2><p class="print-metadata">' + visible.length + ' von ' + PROZESSE.length + ' Schritten. ' + escapeText(filterDescription()) + '. Export vom ' + date + '.</p>';
+      if (table) {
+        html += '<table class="print-table"><thead><tr>' + ['Nr.', 'Phase', 'Schritt', 'Akteure', 'Datenobjekte und Operation', 'Datenräume', 'Fachquellen'].map(text => '<th scope="col">' + text + '</th>').join('') + '</tr></thead><tbody>' + visible.map(step => {
+          const values = [stepNumber(step), phases[step.phase], step.titel, step.akteur.join(', '), step.objekt.join(', ') + ' (' + operationText(step) + ')', step.dr.map(key => rooms[key]).join(', ')];
+          return '<tr>' + values.map(value => '<td>' + escapeText(value) + '</td>').join('') + '<td>' + sourceList(step) + '</td></tr>';
+        }).join('') + '</tbody></table>';
+      } else {
+        for (const [key, label] of Object.entries(phases)) {
+          const steps = visible.filter(step => step.phase === key);
+          if (!steps.length) continue;
+          html += '<h2>' + label + '</h2>' + steps.map(step => '<article class="print-step"><h3>' + stepNumber(step) + ' ' + escapeText(step.titel) + '</h3><p>' + escapeText(step.akteur.join(', ')) + '</p><p>' + objectLine(step, '') + '</p><p>' + roomBadges(step) + '</p>' + details(step, '') + '</article>').join('');
+        }
+      }
+      target.innerHTML = html;
+    }
+
+    function printSteps(format) {
+      printFormat = format;
+      addPrintContent();
+      window.print();
+    }
+    window.addEventListener('beforeprint', addPrintContent);
+    window.addEventListener('afterprint', () => {
+      printFormat = '';
+      byId('print-content').replaceChildren();
+    });
+    byId('btn-overview').addEventListener('click', () => printSteps('uebersicht'));
+    byId('btn-pdf').addEventListener('click', () => printSteps('karten'));
+    byId('btn-csv').addEventListener('click', exportCsv);
+    byId('btn-json').addEventListener('click', exportJson);
+
+    const usedOperations = new Set(PROZESSE.flatMap(step => step.op.split(/,\s*/)));
+    byId('op-legende').innerHTML = '<span class="matrix-legende-label">Operation</span>' + Object.entries(operations).filter(([key]) => usedOperations.has(key)).map(([key, label]) => '<span><span class="card-op">' + key + '</span>' + label + '</span>').join('');
+    byId('model-size').textContent = PROZESSE.length + ' Schritte';
+    updateCards();
+  </script>
+</body>
+</html>
