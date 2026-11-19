@@ -5,25 +5,26 @@
 
 <h2 align="center"><a href="https://timofrank.github.io/ambulante-prozesskarte/">Interaktive Karte öffnen ↗</a></h2>
 
-Was passiert zwischen der Blutabnahme und dem Anruf mit dem Ergebnis? Wie geht es nach einer Überweisung oder einer ambulanten Operation weiter? Die Karte zeigt, wer den nächsten Schritt übernimmt und welche Informationen dafür gebraucht werden.
+Vertragsärztliche Versorgung beginnt oft schon mit dem ersten Anruf. Vor dem Praxisbesuch klären Patientinnen und Patienten mit dem Praxisteam, wie dringend ihr Anliegen ist und was sie zum Termin mitbringen sollen. In der Praxis folgen je nach Bedarf Beratung, Untersuchung oder Behandlung. Auch nach dem Besuch geht die Versorgung weiter, etwa wenn die Hausarztpraxis einen Befund mit der Patientin bespricht oder mit einer Facharztpraxis die Weiterbehandlung abstimmt.
+
+Die Prozesskarte führt 46 typische Versorgungsschritte in einer Übersicht zusammen. Sie zeigt, wer welche Aufgabe übernimmt, wo Informationen entstehen und wer sie als Nächstes braucht. So lassen sich Abläufe vergleichen und Übergaben erkennen, an denen Praxen, Labore oder Apotheken aufeinander angewiesen sind.
 
 ## Einblick in die Karte
 
 [![Browserfenster mit der geöffneten Prozesskarte. Die Suche nach Labor zeigt den Auftrag, die Probenentnahme und die Freigabe des Befunds.](vorschau/labor.png)](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor)
 
-## Die Karte am Beispiel eines Folgerezepts erkunden
+## So erkundest du die Karte
 
-Stell dir vor, dein regelmäßig eingenommenes Medikament geht zur Neige. Wie kommst du an das nächste Rezept?
+Wähle eine der drei Phasen, wenn dich ein bestimmter Abschnitt des Praxisbesuchs interessiert. Du kannst auch über alle Phasen hinweg nach einem Thema suchen. Ein Klick auf einen Treffer zeigt dir, was in diesem Schritt passiert, wer beteiligt ist und wo du mehr darüber nachlesen kannst.
 
-1. **Den passenden Schritt finden.** Gib im Suchfeld „Folgerezept“ ein. Unter „Nach dem Praxisbesuch“ erscheint die Karte **#42 „Folgerezept anfragen und ausstellen“**. [Mit dieser Suche starten](https://timofrank.github.io/ambulante-prozesskarte/?suche=Folgerezept)
-2. **Die Karte aufklappen.** Klicke auf den Treffer. Du liest, wie du das Rezept in der Praxis anfragen kannst und wer entscheidet, ob ein persönlicher Kontakt nötig ist. Unter „Fachquellen“ findest du die Informationen der gematik zum Nachlesen.
-3. **Den Weg weiterverfolgen.** Ersetze den Suchbegriff durch „E-Rezept“. Öffne **„E-Rezept in der Apotheke einlösen“**, um zu sehen, wie du das verordnete Medikament erhältst. Wenn du das Suchfeld leerst, siehst du wieder alle 46 Schritte.
+* Mit „Folgerezept“ findest du heraus, wie du ein Rezept für ein regelmäßig eingenommenes Medikament erneut anfragen kannst und was die Praxis vor dem Ausstellen prüft.
+* Suche nach „Labor“ und folge einer Probe vom Untersuchungsauftrag über die Entnahme bis zu dem Moment, in dem die Ärztin oder der Arzt den Befund beurteilt.
+* „eGK“ führt dich zum Versicherungsnachweis. Dort liest du, wann die Praxis die elektronische Gesundheitskarte einliest und wie eine Ersatzbescheinigung helfen kann, wenn die Karte fehlt.
+* Für Formulare eignet sich der Suchbegriff „Muster“. Mit „Muster 6“ findest du Schritte rund um die Überweisung, mit „Muster 10“ den Laborauftrag.
 
 ## Herkunft und Einordnung
 
-Das Vorbild ist die Krankenhauskarte des Arbeitskreises Patientenportale. Sie beschreibt den Weg vor, während und nach einem Krankenhausaufenthalt. Dafür hat der Arbeitskreis aus über 80 möglichen Schritten 25 ausgewählt. Wie die Auswahl zustande kam, erläutert er im [Positionspapier, Abschnitt 3.3](https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25).
-
-[Original-Repository auf GitHub](https://github.com/oeme-github/INA-ePA-und-Patientenportale) oder [stationäre Prozesskarte öffnen](https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html)
+Vorbild für die Darstellung ist die [stationäre Prozesskarte des Arbeitskreises Patientenportale](https://oeme-github.github.io/INA-ePA-und-Patientenportale/patientenpfad_interaktiv.html). Sie folgt dem Weg von der Vorbereitung auf einen Krankenhausaufenthalt über die Behandlung bis in die Zeit nach der Entlassung. Wie der Arbeitskreis aus über 80 möglichen Schritten 25 für diesen Weg ausgewählt hat, erläutert er in seinem [Positionspapier](https://www.ina.gematik.de/fileadmin/Arbeitskreisdokumente/Patientenportale/Positionspapier.pdf#page=25). Die zugehörigen Prozessdaten und den Aufbau der interaktiven Karte dokumentiert er im [Original-Repository auf GitHub](https://github.com/oeme-github/INA-ePA-und-Patientenportale).
 
 ## #Mitmachen bei der gematik
 
