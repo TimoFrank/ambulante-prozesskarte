@@ -11,7 +11,7 @@ Die Prozesskarte führt 55 ausgewählte Versorgungsschritte in einer Übersicht 
 
 ## Einblick in die Karte
 
-[![Browserfenster mit der geöffneten Prozesskarte. Die Suche nach Labor zeigt den Auftrag, die Probenentnahme und die Freigabe des Befunds.](vorschau/labor.png)](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor)
+[![Browserfenster mit den Filtern der Prozesskarte. Zur Suche nach Labor sind unter anderem das Sichten von Vorbefunden und der Laborauftrag zu sehen.](vorschau/labor.png)](https://timofrank.github.io/ambulante-prozesskarte/?suche=Labor)
 
 ## So erkundest du die Karte
 
@@ -22,7 +22,7 @@ Wähle eine Phase, wenn dich ein bestimmter Abschnitt rund um den Behandlungskon
 * „eGK“ führt dich zum Versicherungsnachweis. Dort liest du, wann die Praxis die elektronische Gesundheitskarte einliest und wie eine Ersatzbescheinigung helfen kann, wenn die Karte fehlt.
 * Für Formulare eignet sich der Suchbegriff „Muster“. Mit „Muster 6“ findest du Schritte rund um die Überweisung, mit „Muster 10“ den Laborauftrag.
 
-Über den Filter für Fachpfade gelangst du direkt zur [Psychotherapie](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Psychotherapie), zur [Privatbehandlung](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Privatbehandlung) oder zur [Pathologie](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Pathologie). Der Prozessbereich beschreibt die Tätigkeit, die Informationsdomäne den Inhalt. Bei der Privatabrechnung kannst du so unterscheiden, wo die Praxis einzelne Gebührenpositionen erfasst und in welcher Form die Rechnung bei der zahlungspflichtigen Person ankommt.
+Unter „Weitere Filter“ findest du die Fachpfade zur [Psychotherapie](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Psychotherapie), zur [Privatbehandlung](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Privatbehandlung) oder zur [Pathologie](https://timofrank.github.io/ambulante-prozesskarte/?fachpfad=Pathologie). Der Prozessbereich beschreibt die Tätigkeit, die Informationsdomäne den Inhalt. Bei der Privatabrechnung kannst du so unterscheiden, wo die Praxis einzelne Gebührenpositionen erfasst und in welcher Form die Rechnung bei der zahlungspflichtigen Person ankommt.
 
 ## Herkunft und Einordnung
 

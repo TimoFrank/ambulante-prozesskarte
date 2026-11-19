@@ -17,7 +17,7 @@ const rooms = {
 };
 const facetLabels = {
   setting: 'Fachpfad', bereich: 'Prozessbereich', art: 'Informationsdomäne',
-  dr: 'Datenort', str: 'Strukturgrad', law: 'Recht und Regelwerk', std: 'Standard und Verfahren'
+  dr: 'Datenort', str: 'Strukturgrad', law: 'Recht und Regelwerke', std: 'Standards und Verfahren'
 };
 const uniqueValues = values => [...new Set(values)].sort((a, b) => a.localeCompare(b, 'de'));
 
@@ -80,54 +80,65 @@ function objectDetails(step, search) {
     + '</ul></section>';
 }
 
-function installFacets() {
-  const container = byId('facet-controls');
-  for (const [group, values] of Object.entries(available)) {
-    const menu = document.createElement('details');
-    menu.id = 'facet-' + group;
-    menu.className = 'facet';
-    const summary = document.createElement('summary');
-    summary.innerHTML = escapeText(facetLabels[group]) + '<span class="facet-value"></span>';
-    const panel = document.createElement('div');
-    panel.className = 'facet-options';
-    panel.setAttribute('role', 'group');
-    panel.setAttribute('aria-label', facetLabels[group]);
-    for (const value of values) {
-      const label = document.createElement('label');
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.value = value;
-      input.addEventListener('change', () => {
-        if (input.checked) selected[group].add(value);
-        else selected[group].delete(value);
-        updateCards();
-      });
-      const caption = document.createElement('span');
-      caption.textContent = facetName(group, value);
-      const count = document.createElement('span');
-      count.className = 'facet-count';
-      label.append(input, caption, count);
-      panel.append(label);
+// Kurzformen gelten nur für die schmalen Filterpillen.
+const shortLabels = {
+  dr: {
+    person: 'Eigene Unterlagen', praxis: 'Praxis', partner: 'Weitere Einrichtung',
+    epa: 'ePA', kv: 'KV', kasse: 'Krankenkasse', pkv: 'PKV',
+    ohne: 'Ohne Ablage', offen: 'Ungeklärt'
+  },
+  law: {
+    'Psychotherapie-Richtlinie': 'PT-Richtlinie',
+    'Psychotherapie-Vereinbarung': 'PT-Vereinbarung'
+  },
+  std: {'Bundeseinheitlicher Medikationsplan': 'BMP'}
+};
+const primaryFacets = ['dr', 'str', 'law', 'std'];
+const secondaryFacets = ['bereich', 'art', 'setting'];
+
+function facetRow(group) {
+  const row = document.createElement('div');
+  row.id = 'facet-' + group;
+  row.className = 'facet-row';
+  row.setAttribute('role', 'group');
+
+  const heading = document.createElement('span');
+  heading.id = row.id + '-label';
+  heading.className = 'filter-label';
+  heading.textContent = facetLabels[group];
+  row.setAttribute('aria-labelledby', heading.id);
+
+  const options = document.createElement('div');
+  options.className = 'facet-options';
+  for (const value of available[group]) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'facet-pill';
+    button.value = value;
+    const fullName = facetName(group, value);
+    const label = shortLabels[group]?.[value] || fullName;
+    button.textContent = label;
+    if (label !== fullName) {
+      button.setAttribute('aria-label', fullName.includes(label) ? fullName : label + ', ' + fullName);
     }
-    menu.append(summary, panel);
-    container.append(menu);
-    menu.addEventListener('toggle', () => {
-      if (!menu.open) return;
-      container.querySelectorAll('details[open]').forEach(other => { if (other !== menu) other.open = false; });
-      menu.classList.toggle('align-end', menu.getBoundingClientRect().left + panel.offsetWidth > window.innerWidth - 12);
+    button.addEventListener('click', () => {
+      if (selected[group].has(value)) selected[group].delete(value);
+      else selected[group].add(value);
+      updateCards();
     });
+    options.append(button);
   }
-  document.addEventListener('click', e => container.querySelectorAll('details[open]').forEach(menu => {
-    if (!menu.contains(e.target)) menu.open = false;
-  }));
-  container.addEventListener('keydown', e => {
-    if (e.key !== 'Escape') return;
-    const menu = e.target.closest('details[open]');
-    if (menu) { menu.open = false; menu.querySelector('summary').focus(); }
-  });
+  row.append(heading, options);
+  return row;
+}
+
+function installFacets() {
+  byId('facet-controls').append(...primaryFacets.map(facetRow));
+  byId('facet-secondary').append(...secondaryFacets.map(facetRow));
   byId('reset-extra').addEventListener('click', () => {
     clearDimensions();
     updateCards();
+    byId('facet-controls').querySelector('button').focus();
   });
 }
 
@@ -138,19 +149,20 @@ function clearDimensions() {
 // Counts refer to distinct steps. Other filters still apply to each candidate option.
 function updateFacets() {
   const candidates = PROZESSE.filter(step => (phase === 'alle' || step.zeiten.includes(phase)) && matchesSearch(step));
-  let hasSelection = false;
   for (const [group, choices] of Object.entries(selected)) {
-    const menu = byId('facet-' + group);
-    const names = [...choices].map(value => facetName(group, value));
-    menu.classList.toggle('applied', Boolean(names.length));
-    menu.querySelector('.facet-value').textContent = names.length ? names.join(', ') : '';
-    if (names.length) hasSelection = true;
-    for (const input of menu.querySelectorAll('input')) {
-      input.checked = choices.has(input.value);
-      input.parentElement.querySelector('.facet-count').textContent = candidates.filter(step => matchesDimensions(step, group, input.value)).length;
+    for (const button of byId('facet-' + group).querySelectorAll('button')) {
+      const value = button.value;
+      const count = candidates.filter(step => matchesDimensions(step, group, value)).length;
+      const description = count === 1 ? '1 passender Schritt' : count + ' passende Schritte';
+      button.setAttribute('aria-pressed', String(choices.has(value)));
+      button.setAttribute('aria-description', description);
+      button.title = facetName(group, value) + ' · ' + description;
     }
   }
-  byId('reset-extra').hidden = !hasSelection;
+  const secondaryCount = secondaryFacets.reduce((sum, group) => sum + selected[group].size, 0);
+  byId('more-count').textContent = secondaryCount ? '(' + secondaryCount + ' aktiv)' : '';
+  byId('more-count').hidden = secondaryCount === 0;
+  byId('reset-extra').hidden = !Object.values(selected).some(choices => choices.size);
 }
 
 function matrixTable(printing = false) {
@@ -199,6 +211,7 @@ function readEntry() {
       if (key) selected[group].add(key);
     }
   }
+  byId('more-filters').open = secondaryFacets.some(group => selected[group].size > 0);
   const startPhase = entry.get('phase');
   if (Object.hasOwn(phases, startPhase)) phase = startPhase;
   byId('phase-row').querySelectorAll('button').forEach(button => setPressed(button, button.dataset.phase === phase));

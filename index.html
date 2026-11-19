@@ -698,7 +698,6 @@
     .scope-details-body h2:first-child { margin-top: 0; }
     .filter-label, .phase-section-count, .card-nr, .matrix-legende-label, .detail-section-label, .modal-nr, .matrix-table th:first-child { color: #606b7c; }
     .filter-row .search-input { min-width: 0; }
-    #communication-search[aria-pressed=true] { border-color: #536a9a; background: #eaf0fa; color: #1c3874; }
     .main { min-width: 0; }
     .prozess-card { padding: 0; min-width: 0; overflow-wrap: anywhere; }
     .card-trigger { appearance: none; width: 100%; padding: 14px 16px; color: inherit; background: none; border: 0; border-radius: inherit; font: inherit; cursor: pointer; text-align: left; }
@@ -778,7 +777,7 @@
       .print-metadata { margin: 6px 0 !important; }
     }
   </style>
-<link rel="stylesheet" href="fachfilter.css?modell=2">
+<link rel="stylesheet" href="fachfilter.css?modell=3">
 </head>
 <body>
   <header class="page-header">
@@ -794,7 +793,7 @@
         <h2>Kommunikation in der Praxissoftware</h2>
         <p>Die Kommunikationsbeispiele zeigen, was eine Person erlebt und wer das Anliegen im Team übernimmt. „Produktbeispiel“ verweist auf eine dokumentierte Funktion eines Praxisverwaltungssystems (PVS). „Spezifiziert“ verweist auf technische Vorgaben für die genannte Anwendung. Die Gestaltungsvorschläge stammen aus diesem Projekt. Bei Übergaben zwischen Systemen zeigen sie, was die gematik, die KBV und die Hersteller gemeinsam klären könnten. <a href="https://fachportal.gematik.de/zielgruppen/primaersystemhersteller" target="_blank" rel="noopener">gematik zu Schnittstellen für Primärsysteme</a></p>
         <h2>Was die Filter zeigen</h2>
-        <p>Der Prozessbereich beschreibt die Aufgabe im Versorgungsablauf. Die Informationsdomäne benennt die Art der Information, etwa Befund oder Termin. Jede Objektvariante zeigt, wo die Information vorliegt und ob ihre Inhalte als einzelne Felder auslesbar sind. Ein strukturierter Befund und ein Scan können deshalb verschiedene Treffer ergeben. Die Zahlen im Filter zählen jeden passenden Schritt einmal.</p>
+        <p>Der Prozessbereich beschreibt die Aufgabe im Versorgungsablauf. Die Informationsdomäne benennt die Art der Information, etwa Befund oder Termin. Jede Objektvariante zeigt, wo die Information vorliegt und ob ihre Inhalte als einzelne Felder auslesbar sind. Ein strukturierter Befund und ein Scan können deshalb verschiedene Treffer ergeben. Wählst du mehrere Datenorte, genügt ein passender Ort. Kombinierst du Datenort und Strukturgrad, müssen beide zur selben Information passen. In der Trefferzahl zählt jeder Schritt einmal.</p>
         <p>Ein Schritt kann zu mehreren Kontaktphasen gehören. Die Gesamtübersicht ordnet ihn nach seinem Hauptbezug ein. „Kontaktübergreifend“ erfasst Arbeit über einzelne Kontakte hinweg. Telefon, Messenger und Portale sind mögliche Kommunikationswege. Ein ePA-Eintrag oder eine andere Ablage wird für die jeweilige Variante gesondert angegeben. Der EHDS bildet einen europäischen Rechtsrahmen. Die fachlichen und rechtlichen Belege stehen am jeweiligen Schritt.</p>
         <div class="license">Viewer nach dem <a href="https://github.com/oeme-github/INA-ePA-und-Patientenportale/tree/c2d411a2d262611ec3d6323689960f9d5f7e6235" target="_blank" rel="noopener">Original von oeme</a>, © 2026 oeme. Für Versorgungsprozesse überarbeitet am 19.11.2026. <a href="LICENSE" target="_blank" rel="noopener">Lizenz EUPL 1.2 oder später</a>.</div>
       </div>
@@ -806,9 +805,18 @@
   </nav>
   <section class="toolbar" aria-label="Prozessschritte filtern">
     <div class="filter-row" id="phase-row" role="group" aria-label="Phase"><span class="filter-label">Phase</span></div>
-    <div class="filter-row"><label class="filter-label" for="search-input">Suche</label><input class="search-input" type="search" id="search-input" placeholder="Prozessschritte suchen">
-      <button id="communication-search" type="button" class="btn-export" aria-pressed="false" aria-label="Suchthema Kommunikation" aria-controls="karten">Kommunikation</button></div>
-    <div class="facet-bar"><div id="facet-controls" aria-label="Fachfilter"></div><button id="reset-extra" class="facet-reset" type="button" hidden>Fachfilter zurücksetzen</button></div>
+    <div id="facet-controls"></div>
+    <div class="filter-row">
+      <label class="filter-label" for="search-input">Suche</label>
+      <input class="search-input" type="search" id="search-input" placeholder="z. B. Kommunikation oder Labor">
+    </div>
+    <div class="facet-tools">
+      <details id="more-filters">
+        <summary>Weitere Filter <span id="more-count" hidden></span></summary>
+        <div id="facet-secondary"></div>
+      </details>
+      <button id="reset-extra" class="facet-reset" type="button" hidden>Fachfilter zurücksetzen</button>
+    </div>
   </section>
   <main class="main">
     <div class="export-bar" id="exports">
@@ -830,7 +838,7 @@
   </dialog>
   <section id="print-content"></section>
   <script src="karten.js?modell=2"></script>
-  <script src="kartenmodell.js?modell=2"></script>
+  <script src="kartenmodell.js?modell=3"></script>
   <script>
     'use strict';
 
@@ -950,7 +958,6 @@
     }
 
     function updateCards(focusStep) {
-      setPressed(byId('communication-search'), query.toLocaleLowerCase('de') === 'kommunikation');
       const results = visibleSteps();
       const complete = results.length > 0 && results.every(step => expanded.has(step.nr));
       byId('counter').innerHTML = '<strong>' + results.length + ' von ' + PROZESSE.length + '</strong> Prozessschritten sichtbar';
@@ -1009,11 +1016,6 @@
       byId('search-input').focus();
     });
 
-    byId('communication-search').addEventListener('click', () => {
-      query = query.toLocaleLowerCase('de') === 'kommunikation' ? '' : 'Kommunikation';
-      byId('search-input').value = query;
-      updateCards();
-    });
     byId('search-input').addEventListener('input', event => {
       query = event.target.value.trim();
       updateCards();
